@@ -1,70 +1,146 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Gridlock
 
-## Available Scripts
+Gridlock is a maze game built in React where players must visit every cell of the game board exactly once. This project aims to create an online version of that game where users can create mazes and compete for fastest solver.
 
-In the project directory, you can run:
-### `npm install -g firebase-tools`
-### `npm install firebase`
+## Contents
+* [How to run Gridlock on a localhost](#Run)
+* [Firestore.js](#Firestore)
 
-### `npm start`
+## <a name="Run" />How to Run Gridlock on a localhost
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Terminal:
+To run Gridlock, open the terminal and navigate to a directory:
+```
+$ cd desktop
+```
+Clone the repo:
+```
+$ git clone https://github.com/kricheso/gridlock.git
+```
+Navigate into the repo:
+```
+$ cd gridlock
+```
+Install Firebase tools as an administrator:
+```
+$ sudo npm install -g firebase-tools
+```
+Install Firebase:
+```
+$ npm install firebase
+```
+Look in your email for the `firebase.txt` file. Rename the file from: `firebase.txt` to `firebase.js` then move the file into the following directory:
+```
+/gridlock/src/
+```
+Start the localhost server:
+```
+$ npm start
+```
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## <a name="Firestore" />Firestore.js
 
-### `npm test`
+Firestore.js is a custom database class to make communications to Google Firestore easier and less error-prone. All methods in this class are asynchronous and static. There are two types methods: `GET` and `MODIFY`. Import the module with:
+```javascript
+import Firestore from './services/firestore';
+```
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### GET Methods:
 
-### `npm run build`
+`GET` methods retrieve data from Google Firestore.  These methods will either return a `value` on success or `null` on failure.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### `Firestore.get.user(id)`
+Return a user from a corresponding id.
+* <b>id</b> `String` - A user id.
+* <b>Returns</b> `Object?` - A user dictionary.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+<b>Example usage:</b>
+```javascript
+function App() {
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+  const [userName, setUserName] = useState(null);
 
-### `npm run eject`
+  async function myFunction() {
+    const user = await Firestore.get.user("Lb1IHIzcHg96FuyGWYXN");
+    if (user === null) { return; }
+    setUserName(user.name);
+  }
+  
+  return(
+    <div className="App">
+      <header className="App-header">
+        <p>
+          Hello {userName}
+        </p>
+        <button onClick={ myfunction() }>
+          My Button
+        </button>
+      </header>
+    </div>
+  )
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+}
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+#### `Firestore.get.grid(id)`
+Return a grid from a corresponding id.
+* <b>id</b> `String` - A grid id.
+* <b>Returns</b> `Object?` - A grid dictionary.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+<b>Example usage:</b>
+```javascript
+async function myFunction() {
+  const grid = await Firestore.get.grid("0YtaizGyzfLzuDxkBBwZ");
+  if (grid === null) { return; }
+  setGridName(grid.name);
+}
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+#### `Firestore.get.numberOfLikesForGrid(id)`
+Returns the number of likes for a certain grid.
+* <b>id</b> `String` - A grid id.
+* <b>Returns</b> `Number?` - The number of likes the grid has.
 
-## Learn More
+<b>Example usage:</b>
+```javascript
+async function myFunction() {
+  const likes = await Firestore.get.numberOfLikesForGrid("0YtaizGyzfLzuDxkBBwZ");
+  if (likes === null) { return; }
+  setLikes(likes);
+}
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#### `Firestore.get.gridsCreatedByUser(id)`
+Returns all grids created by a certain user.
+* <b>id</b> `String` - A user id.
+* <b>Returns</b> `Array<Object>?` - An array of grid dictionaries.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+<b>Example usage:</b>
+```javascript
+async function myFunction() {
+  const grids = await Firestore.get.gridsCreatedByUser("Lb1IHIzcHg96FuyGWYXN");
+  if (grids === null) { return; }
+  for (const grid of grids) {
+    console.log(grid);
+  }
+}
+```
 
-### Code Splitting
+### MODIFY Methods:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+```MODIFY``` methods change data in Google Firestore. These methods will either return `true` on success or ```false``` on failure.
 
-### Analyzing the Bundle Size
+#### `Firestore.modify.addOneLikeFromUserToGrid(userId, gridId)`
+Simulates a user liking a grid.
+* <b>userId</b> `String` - A user id.
+* <b>gridId</b> `String` - A grid id.
+* <b>Returns</b> `Boolean` - Did succeed.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+<b>Example usage:</b>
+```javascript
+async function myFunction() {
+  const success = await Firestore.modify.addOneLikeToGrid("0YtaizGyzfLzuDxkBBwZ");
+  if (!success) { return; }
+  setLikeIndicator(true);
+}
+```
