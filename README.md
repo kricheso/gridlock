@@ -139,7 +139,7 @@ Simulates a user liking a grid.
 <b>Example usage:</b>
 ```javascript
 async function myFunction() {
-  const success = await Firestore.modify.addOneLikeToGrid("0YtaizGyzfLzuDxkBBwZ");
+  const success = await Firestore.modify.addOneLikeFromUserToGrid("Lb1IHIzcHg96FuyGWYXN", "0YtaizGyzfLzuDxkBBwZ");
   if (!success) { return; }
   setLikeIndicator(true);
 }
