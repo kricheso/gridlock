@@ -9,6 +9,20 @@ Gridlock is a maze game built in React where players must visit every cell of th
 ## <a name="Run" />How to Run Gridlock on a localhost
 
 ### Terminal:
+To add code:
+```
+$ git clone https://github.com/kricheso/gridlock.git
+$ git checkout -b name_of_feature
+$ git add edited_file1 edited_file2 edited_file3
+$ # Or do "git add ." to add everything at once.
+$ git commit -m "Implement <name of feature>"  # Add a readable commit message here.
+$ git push
+(Now go to the github website to send a pull request to merge your branch.)
+
+$ git checkout master
+$ git pull  # Pull updates from github before implementing next feature.
+```
+
 To run Gridlock, open the terminal and navigate to a directory:
 ```
 $ cd desktop
