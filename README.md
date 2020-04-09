@@ -43,10 +43,11 @@ $ npm start
 
 ## <a name="GitHubHelp" />GitHub Help
 
-### GitHub Terminal Commands:
+### Commands to Add a New Feature:
 
 ```
 $ git clone https://github.com/kricheso/gridlock.git
+$ cd gridlock
 $ git checkout -b name_of_feature
 $ git add edited_file1 edited_file2 edited_file3  # Or do "git add ." to add everything at once.
 $ git commit -m "Implement <name of feature>"  # Add a readable commit message here.
@@ -57,6 +58,15 @@ Now go to the github website to send a pull request to merge your branch.
 $ git checkout master
 $ git pull  # Pull updates from github before implementing next feature.
 ```
+
+### Other Useful Commands:
+
+* `git status` - Show what files were changed or added to commit.
+* `git log` - Show the commits on the active branch.
+* `git checkout -- filename` - Revert local changes to a single file.
+* `git diff` - Display local file changes.
+* `git diff --staged` - Display changes that were marked ready to commit with `git add`.
+* `git branch` - Show active branch.
 
 ## <a name="Objects" />Objects
 Gridlock has three main objects: [Grid](#Grid), [Score](#Score), and [User](#User) objects.
