@@ -74,7 +74,7 @@ Gridlock has three main objects: [Grid](#Grid), [Score](#Score), and [User](#Use
 
 ### <a name="Grid" />Grid
 * `created` - A date that corresponds to the time and date the grid was created.
-* `creatorDisplay` - A string that is the creator's display name.
+* `creatorDisplayName` - A string that is the creator's display name.
 * `creatorId` - A string that is the creator's userId.
 * `data` - A character matrix that represents the shape of the grid. S means start. F means finish. Numbers mean steps left.
 * `id` - A string that is the id of this grid.
