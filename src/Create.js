@@ -11,7 +11,9 @@ function Create(props) {
     let email = fields['email'].value;
     let title = fields['title'].value;
     const createdGrid = await Firestore.add.grid(email, title, grid);
-    if (createdGrid === null) { /* error */ }
+    if (createdGrid === null) {
+       alert("Couldn't upload board.");
+    }
     console.log(createdGrid);
     return false;
   }
