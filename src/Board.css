@@ -4,9 +4,12 @@ table {
 }
 
 td {
-  border: solid grey;
   width: 30px;
   height: 30px;
+}
+
+.on-board {
+  border: solid grey;
 }
 
 .seen {
