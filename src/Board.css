@@ -1,0 +1,26 @@
+table {
+  table-layout: fixed;
+  margin: auto;
+}
+
+td {
+  border: solid grey;
+  width: 30px;
+  height: 30px;
+}
+
+.seen {
+  background-color: grey;
+}
+
+.board {
+  display: block;
+}
+
+.start {
+  background-color: lightgrey;
+}
+
+.end {
+  background-color: lightgreen;
+}
