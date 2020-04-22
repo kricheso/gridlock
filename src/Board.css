@@ -1,0 +1,29 @@
+table {
+  table-layout: fixed;
+  margin: auto;
+}
+
+td {
+  width: 30px;
+  height: 30px;
+}
+
+.on-board {
+  border: solid grey;
+}
+
+.seen {
+  background-color: grey;
+}
+
+.board {
+  display: block;
+}
+
+.start {
+  background-color: lightgrey;
+}
+
+.end {
+  background-color: lightgreen;
+}
