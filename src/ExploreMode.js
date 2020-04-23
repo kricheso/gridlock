@@ -3,7 +3,8 @@ import logo from './logo.svg';
 import './ExploreMode.css';
 //import GameCard from './gameCard2.js';
 import GameCards from './gameCards.js';
-
+import Firestore from './services/firestore.js';
+import ExploreHeader from './ExploreHeader.js';
 
 function ExplorePage() {
   //var games =  CurrentExploreGames(); //must come from database
@@ -17,22 +18,14 @@ function ExplorePage() {
   }, [games]);
 
   return (
-    <div className="Explore">
-      <header className="App-header">
-      <a
-        className="App-link"
-        href="https://reactjs.org"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Explore
-      </a>
-
-      <GameCards gameCards={exploreGames} />
-
-        </header>
-
-  </div>
+    <div>
+      <ExploreHeader/>
+      <div className="Explore">
+        <header className="App-header">
+          <GameCards gameCards={exploreGames} />
+       </header>
+      </div>
+    </div>
 
   );
 }
