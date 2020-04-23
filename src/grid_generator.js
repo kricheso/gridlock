@@ -23,15 +23,16 @@ export default function CreatedGrid() {
   const [username, setUsername] = useState("");
   const [grid_list, setgridlist] = useState([]);
 
-  useEffect(load_grid, []);
+  useEffect(load_grids, []);
 
-  async function load_grid() {
-    const firestore_grid = await Firestore.get.gridsCreatedByUser(
+  async function load_grids() {
+    const firestore_grids = await Firestore.get.gridsCreatedByUser(
       "kricheso@google.com",
       "kricheso@google.com"
     );
 
-    setgridlist(firestore_grid);
+    // If grid is null, set it to an empty grid instead.
+    setgridlist(firestore_grids || []);
   }
 
   return (
