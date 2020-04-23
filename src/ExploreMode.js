@@ -21,7 +21,7 @@ function ExplorePage() {
     <div>
       <ExploreHeader/>
       <div className="Explore">
-        <header className="App-header">
+        <header className="Explore-header">
           <GameCards gameCards={exploreGames} />
        </header>
       </div>

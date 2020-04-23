@@ -5,18 +5,18 @@ body{
   text-align: center;
 }
 
-.App-logo {
+.Explore-logo {
   height: 40vmin;
   pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
+  .Explore-logo {
     animation: App-logo-spin infinite 20s linear;
   }
 }
 
-.App-header {
+.Explore-header {
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
@@ -27,11 +27,11 @@ body{
   color: white;
 }
 
-.App-link {
+.Explore-link {
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
+@keyframes Explore-logo-spin {
   from {
     transform: rotate(0deg);
   }
