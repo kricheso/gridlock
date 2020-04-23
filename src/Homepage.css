@@ -1,0 +1,42 @@
+.Homepage {
+  text-align: center;
+}
+
+.Homepage-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .Homepage-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.Homepage-header {
+  background-color: #282c34;
+  background-image: url(http://fullhdwall.com/wp-content/uploads/2017/12/Floral-Grid-Wallpaper.jpg);
+  background-position: center;
+  background-repeat: repeat;
+  background-size: cover;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.Homepage-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

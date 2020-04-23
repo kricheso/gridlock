@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import logo from './logo.svg';
-import './App.css';
+import './Homepage.css';
 import {
   BrowserRouter as Router,
   Switch,
@@ -15,28 +15,6 @@ import Button from '@material-ui/core/Button';
 import Authentication from './services/authentication.js';
 //import ButtonAppBar from './nav.js';
 //import TemporaryDrawer from './navSide.js';
-
-
-// function App() {
-//
-//
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Gridlock
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-
-
 
 
 function About() {
@@ -82,8 +60,8 @@ export default function Homepage() {
 
   function Home() {
     return (
-      <div className="App">
-        <header className="App-header">
+      <div className="Homepage">
+        <header className="Homepage-header">
 
 
 
@@ -93,11 +71,11 @@ export default function Homepage() {
           {user == null ? (
             <div>
             <Button onClick={() => {loginPress()}}>
-              <img src={lock} className="App-logo" alt="logo" />
+              <img src={lock} className="Homepage-logo" alt="logo" />
             </Button>
             </div>) :
             <div>
-              <img src={unlock} className="App-logo" alt="logo" />
+              <img src={unlock} className="Homepage-logo" alt="logo" />
             </div>
           }
 
