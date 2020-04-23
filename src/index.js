@@ -7,13 +7,14 @@ import * as serviceWorker from './serviceWorker';
 import ExplorePage from './ExploreMode.js';
 import Play from './Play.js';
 import Create from './Create.js';
-import Board from './Board.js';
+import Homepage from './Homepage.js';
 
 ReactDOM.render(
   <React.StrictMode>
     <ExplorePage />
     <Play/>
     <App />
+    <Homepage />
   </React.StrictMode>,
   document.getElementById('root')
 );
