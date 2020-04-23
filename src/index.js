@@ -8,6 +8,7 @@ import ExplorePage from './ExploreMode.js';
 import Play from './Play.js';
 import Create from './Create.js';
 import Homepage from './Homepage.js';
+import Grid from "./grid_generator";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -16,7 +17,7 @@ ReactDOM.render(
     <App />
     <Homepage />
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change
