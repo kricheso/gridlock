@@ -343,7 +343,7 @@ async function myFunction() {
 ```
 
 #### <a name="getGridForUser" />`Firestore.get.gridForUser(userId, gridId)`
-Gets the grid object for a logged in user. The userId corresponds to the user that is currently logged in. The gridId is the requested grid object. Note: all Firestore functions do this automatically.
+Gets the grid object for a logged in user. UserId corresponds to the user's id (which is the same as their email address) that is currently logged in. The gridId is the requested grid object. Note: all Firestore functions do this automatically.
 * <b>userId</b> `String` - The id of the logged in user.
 * <b>gridId</b> `String` - The id of the grid.
 * <b>Returns:</b> `Grid?` - The grid object that was queried.
