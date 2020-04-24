@@ -8,8 +8,8 @@ function Play(props) {
   const [startTime, setStartTime] = useState(Date.now());
   const [intervalId, setIntervalId] = useState(null);
   const [grid, setGrid] = useState(null)
-  const userId = props.userId || "azeezah@google.com";
-  const gridId = props.gridId || "board1_by_kricheso@google.com";
+  const userId = props.userId;
+  const gridId = props.gridId;
   const default_grid = [
     ["1", "1", "1", "1"],
     ["1", "1", "S", "1"],
@@ -34,8 +34,9 @@ function Play(props) {
   async function finishGame() {
     console.log("Finished game.");
     const score_sec = stopTimer();
+    if (!userId || !gridId) { return; }
     const score_obj = await Firestore.add.score(userId, gridId, score_sec);
-    if (score_obj === null) {
+    if (!score_obj) {
       // Todo: Surface error to user.
       console.log("Couldn't upload score.");
     } else {
@@ -46,13 +47,15 @@ function Play(props) {
   }
 
   async function loadGrid() {
-    const grid_obj = await Firestore.get.gridForUnregisteredUser(gridId);
-    if (!grid_obj) {
-      console.log("Failed to load grid, using default_grid.");
-      setGrid(default_grid);
-    } else {
-      setGrid(grid_obj.data);
+    if (gridId) {
+      const grid_obj = await Firestore.get.gridForUnregisteredUser(gridId);
+      if (grid_obj) {
+        setGrid(grid_obj.data);
+        return;
+      }
     }
+    console.log("Failed to load grid, using default_grid.");
+    setGrid(default_grid);
   }
 
   return (
