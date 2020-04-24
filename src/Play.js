@@ -63,8 +63,8 @@ function Play(props) {
           // Todo: Use flexbox to center board.
         }
         {
-          grid ? // Wait until grid is loaded to render it.
-            <Board grid={grid} finishGame={finishGame} />
+          grid // Wait until grid is loaded to render it.
+            ? <Board grid={grid} finishGame={finishGame} />
             : <></>
         }
       </div>

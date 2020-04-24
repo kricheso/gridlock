@@ -1,13 +1,3 @@
-.col20 {
-  float: left;
-  width: 20%;
-}
-
-.col60 {
-  float: left;
-  width: 70%;
-}
-
 .trophy {
   float: left;
   background-image: url('Trophy.svg');
