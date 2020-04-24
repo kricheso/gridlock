@@ -5,10 +5,17 @@ import './Play.css';
 
 function Play(props) {
   const [timeSec, setTimeSec] = useState(0);
-  const [startTime, setStartTime] = useState(Math.floor(Date.now()/1000));
+  const [startTime, setStartTime] = useState(Date.now());
   const [intervalId, setIntervalId] = useState(null);
-  const userId = props.userId;
-  const gridId = props.gridId;
+  const [grid, setGrid] = useState(null)
+  const userId = props.userId || "azeezah@google.com";
+  const gridId = props.gridId || "board1_by_kricheso@google.com";
+  const default_grid = [
+    ["1", "1", "1", "1"],
+    ["1", "1", "S", "1"],
+    ["0", "0", "1", "1"],
+    ["0", "0", "F", "0"],
+  ];
 
   function stopTimer() {
     clearInterval(intervalId);
@@ -17,30 +24,37 @@ function Play(props) {
 
   function startTimer() {
     setIntervalId(setInterval(() => {
-      setTimeSec(Math.floor(Date.now()/1000) - startTime);
+      setTimeSec(Math.floor(Date.now()/1000 - startTime/1000));
     }, 1000));
   }
+
   useEffect(startTimer, []);
+  useEffect(loadGrid, []);
 
-
-  function finishGame(score) {
-    console.log("game finished");
-    // Todo: Load leaderboard.
+  async function finishGame() {
+    console.log("Finished game.");
     const score_sec = stopTimer();
-    if (userId && gridId) {
-      const score_obj = Firestore.add.score(userId, gridId, score_sec);
-      if (score_obj === null) {
-        // Todo: Surface error to user.
-        console.log("Couldn't upload score.");
-      }
+    const score_obj = await Firestore.add.score(userId, gridId, score_sec);
+    if (score_obj === null) {
+      // Todo: Surface error to user.
+      console.log("Couldn't upload score.");
+    } else {
+      // Todo: Load leaderboard.
+      console.log("Uploaded score.")
+      console.log(score_obj)
     }
   }
-  const default_grid = [
-    ["1", "1", "1", "1"],
-    ["1", "1", "S", "1"],
-    ["0", "0", "1", "1"],
-    ["0", "0", "F", "0"],
-  ];
+
+  async function loadGrid() {
+    const grid_obj = await Firestore.get.gridForUnregisteredUser(gridId);
+    if (!grid_obj) {
+      console.log("Failed to load grid, using default_grid.");
+      setGrid(default_grid);
+    } else {
+      setGrid(grid_obj.data);
+    }
+  }
+
   return (
     <>
       <div className="trophy"></div>
@@ -48,7 +62,11 @@ function Play(props) {
         {
           // Todo: Use flexbox to center board.
         }
-        <Board grid={props.grid || default_grid} finishGame={finishGame} />
+        {
+          grid ? // Wait until grid is loaded to render it.
+            <Board grid={grid} finishGame={finishGame} />
+            : <></>
+        }
       </div>
       <div className="stopwatch">
         <div className="stopwatch-display">
