@@ -5,7 +5,7 @@
 // This test file requires internet to work. If there
 // are network errors, the test suite will fail.
 // NOTE: kricheso@google.com is a test account made by Kousei.
-// It is guarenteed to be in the database.
+// It is guaranteed to be in the database.
 
 import firebaseConfig from '../../firebase'; // Must be present to initialize database.
 import Firestore from '../firestore'
