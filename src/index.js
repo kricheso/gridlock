@@ -5,13 +5,19 @@ import './index.css';
 import App from './App';
 import Play from './Play';
 import * as serviceWorker from './serviceWorker';
+import ExplorePage from './ExploreMode.js';
+import Create from './Create.js';
+import Homepage from './Homepage.js';
+import Grid from "./grid_generator";
 
 ReactDOM.render(
   <React.StrictMode>
+    <ExplorePage />
+    <Play/>
     <App />
-    <Play />
+    <Homepage />
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change
