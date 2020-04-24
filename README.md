@@ -69,6 +69,18 @@ $ git pull  # Pull updates from github before implementing next feature.
 * `git checkout branch_name` - Switch to an existing branch.
 * `git reset --soft HEAD^` - Undo the last commit without losing changes.
 
+### Common Issues:
+
+If you get a merge conflict involving package-lock.json or package.json, just copy the versions of those files from  github, then reinstall any packages that you've added.  This is faster since these files are pretty verbose.  So for example:
+```
+# Overwrite files with what's on Github:
+$ git checkout master -- package.json
+$ git checkout master -- package-lock.json
+
+# Replace this library with whatever you've installed to make your changes work.
+$ npm install @material-ui/core
+```
+
 ## <a name="Objects" />Objects
 Gridlock has three main objects: [Grid](#Grid), [Score](#Score), and [User](#User) objects.
 
