@@ -357,7 +357,6 @@ async function myFunction() {
 }
 ```
 
-
 #### <a name="getGridForUnregisteredUser" />`Firestore.get.gridForUnregisteredUser(gridId)`
 Gets the grid object for a user who is not logged in. The gridId is the requested grid object. Note: all Firestore functions do this automatically.
 * <b>gridId</b> `String` - The id of the grid.
