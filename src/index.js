@@ -3,11 +3,13 @@ import ReactDOM from 'react-dom';
 import './firebase.js';
 import './index.css';
 import App from './App';
+import Play from './Play';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
     <App />
+    <Play />
   </React.StrictMode>,
   document.getElementById('root')
 );

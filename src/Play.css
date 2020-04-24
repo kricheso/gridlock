@@ -1,0 +1,42 @@
+.col20 {
+  float: left;
+  width: 20%;
+}
+
+.col60 {
+  float: left;
+  width: 70%;
+}
+
+.trophy {
+  float: left;
+  background-image: url('Trophy.svg');
+  background-size: contain;
+  width: 300px;
+  height: 300px;
+}
+
+.game {
+  float: left;
+}
+
+.stopwatch {
+  float: right;
+  background-image: url('StopWatch.svg');
+  background-size: contain;
+  width: 300px;
+  height: 300px;
+}
+
+.stopwatch-display {
+  position: relative;
+  margin: auto;
+  top: 45%;
+  font-size: 300%;
+  color: #666;
+  border-radius: 10%;
+  border: #666 solid;
+  margin: auto;
+  text-align: center;
+  width: 60%;
+}
