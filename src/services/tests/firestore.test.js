@@ -14,12 +14,16 @@ const testUser = "kricheso@google.com"
 const testGridTitle = "<TEST GRID>"
 const testGrid = Firestore.HASH.convertToGridId(testUser, testGridTitle)
 
+beforeAll(async () => {
+    await Firestore.remove.grid(testGrid);
+});
+
 test('Sanity Check', () => {
     expect("hi").toBe("hi");
 });
 
 test('Like and Unlike Grids', async function () {
-    
+
     // invalid grid
     expect(await Firestore.add.grid(testUser, testGridTitle, [["S", "0"], ["F", "F"]])).toBeFalsy();
 
@@ -27,10 +31,10 @@ test('Like and Unlike Grids', async function () {
     expect(await Firestore.add.grid(testUser, testGridTitle, [["S", "0"], ["1", "F"]])).toBeTruthy();
 
     // duplicate title
-    expect(await Firestore.add.grid(testUser, testGridTitle, [["S", "0"], ["1", "F"]])).toBeFalsy(); 
-    
+    expect(await Firestore.add.grid(testUser, testGridTitle, [["S", "0"], ["1", "F"]])).toBeFalsy();
+
     // grid liked
-    expect(await Firestore.add.like(testUser, testGrid)).toBeTruthy(); 
+    expect(await Firestore.add.like(testUser, testGrid)).toBeTruthy();
 
     // grid already liked
     expect(await Firestore.add.like(testUser, testGrid)).toBeFalsy();
@@ -53,7 +57,7 @@ test('Adding Some Scores to a Grid', async function () {
 
     // add incomplete score
     expect(await Firestore.add.incompleteScore(testUser, testGrid));
-    
+
     // check statistics
     let grid = await Firestore.get.gridForUnregisteredUser(testGrid);
     expect(grid.numberOfAttempts).toBe(1);
@@ -75,4 +79,8 @@ test('Adding Some Scores to a Grid', async function () {
     // trying to remove a non-existing grid
     expect(await Firestore.remove.grid(testGrid)).toBeFalsy();
 
+});
+
+afterAll(async () => {
+    await Firestore.remove.grid(testGrid);
 });
