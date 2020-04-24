@@ -1,6 +1,11 @@
+//
+// firestoreManualTests.js
+// created by Kousei on 4/24/2020
+//
+
 import React, { useState } from 'react';
-import Firestore from './firestore';
-import Authentication from './authentication';
+import Firestore from '../firestore';
+import Authentication from '../authentication';
 
 function FirestoreManualTests() {
 
@@ -157,10 +162,10 @@ function FirestoreManualTests() {
   }
 
   return (
-    <div className="App">
-      <header className="App-header">
+    <div className="FirestoreManualTests">
+      <header className="FirestoreManualTests-header">
         <h2>Firestore Testing and Manipulation File</h2>
-        <p>Please visit gridlock firebase console if you want to view live database changes.</p>
+        <p>Please visit gridlock firebase console if you want to view live database changes. Open web console to see print statments.</p>
         { userId ? (<>  
           <p>Hello { userId }!</p>      
           <button onClick={ logout }> 

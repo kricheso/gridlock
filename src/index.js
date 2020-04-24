@@ -9,7 +9,7 @@ import Play from './Play.js';
 import Create from './Create.js';
 import Homepage from './Homepage.js';
 import Grid from "./grid_generator";
-import FirestoreManualTests from './services/firestoreManualTests.js';
+import FirestoreManualTests from './services/tests/firestoreManualTests.js';
 
 ReactDOM.render(
   <React.StrictMode>
