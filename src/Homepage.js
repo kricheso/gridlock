@@ -25,7 +25,7 @@ function Explore() {
     <div>
       {ExplorePage()}
     </div>
-    
+
   );
 }
 

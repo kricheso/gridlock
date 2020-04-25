@@ -22,15 +22,11 @@ function GameCards({gameCards}) {
           numberOfLikes = {gameList[key][3]}
           />
         })}
-        </div>
-      );
-   }
-
-
-  return (
-      allExploreCard()
+      </div>
     );
+  }
 
+  return allExploreCard();
 }
 
 export default GameCards;
