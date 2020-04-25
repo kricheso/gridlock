@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -15,7 +15,10 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import Grid from '@material-ui/core/Grid';
+import Authentication from './services/authentication.js';
 
+// Variables
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -74,6 +77,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// Function
 export default function PersistentDrawerLeft() {
   const classes = useStyles();
   const theme = useTheme();
@@ -87,6 +91,15 @@ export default function PersistentDrawerLeft() {
     setOpen(false);
   };
 
+  const [user, setUser] = useState(null);
+
+  async function loginPress(){
+    const user = await Authentication.logIn();
+    if (user === null) { /* error */ }
+
+    setUser(user);
+  } // End of loginPress
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -97,18 +110,47 @@ export default function PersistentDrawerLeft() {
         })}
       >
         <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, open && classes.hide)}
+          <Grid 
+          justify="space-between" // Add it here :)
+          container 
+          spacing={24}
           >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap>
-            Gridlock
-          </Typography>
+            <Grid item>
+              <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              className={clsx(classes.menuButton, open && classes.hide)}
+              >
+                <MenuIcon />
+              </IconButton>
+            </Grid>
+            <Grid item>
+              <Typography variant="h6" noWrap>
+                Gridlock
+              </Typography>
+            </Grid>
+            <Grid item>
+              <div>
+                {user == null ? (
+                  <div>
+                    <Button color="inherit" onClick={() => {loginPress()}}>Login</Button>
+                  </div>) :
+                  <div>
+                    {user != null &&
+                      // <img src={user.photoUrl} alt={user.photoUrl.alt/>
+                      <p style={{ color: 'black' }}>
+                        {user.displayName}
+                      </p>
+                    }
+                  </div>
+                }
+              </div>  
+            </Grid>
+          </Grid>
+          
+          
         </Toolbar>
       </AppBar>
       <Drawer
