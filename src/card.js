@@ -35,12 +35,12 @@ function SingleCard({name, author, gameLink, numberOfLikes}) {
             {name}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            By {author}
+            By <Button href="/profile">{author}</Button>
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
+        <Button size="small" color="primary" href="/game">
           Play
         </Button>
         <Button size="small" color="primary">
