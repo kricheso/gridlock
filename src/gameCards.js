@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import SingleCard from './card.js';
 import Firestore from './services/firestore.js';
 import firebaseConfig from './services/firestore.js'; // Must be present to initialize database.
-import LoadGrids from './loadGrids.js';
 
 
 
