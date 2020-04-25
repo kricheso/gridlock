@@ -1,11 +1,9 @@
 import React, {useState} from 'react';
-import logo from './logo.svg';
 import './Homepage.css';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
 } from "react-router-dom";
 import './App.css';
 import lock from './lock.png'
@@ -13,9 +11,7 @@ import unlock from './unlock.png'
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Authentication from './services/authentication.js';
-import ButtonAppBar from './nav.js';
-import Firestore from './services/firestore.js';
-//import TemporaryDrawer from './navSide.js';
+import PersistentDrawerLeft from './nav.js';
 import ExplorePage from './ExploreMode.js'
 import Play from './Play.js'
 import MediaCard from './Profile.js'
@@ -72,28 +68,13 @@ export default function Homepage() {
 
     setUser(user);
 
-    /*
-    var provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(provider).then(function(result) {
-      console.log(result.user);
-      setUser(result.user);
-    }).catch(function(error) {
-      console.log(error);
-    });
-    */
   } // End of loginPress
-
-  function handlePlay(){
-    console.log("playing");
-  } // End of handlePlay
   // END OF HELPTER METHODS FOR HOMEPAGE
 
   function Home() {
     return (
       <div className="Homepage">
         <header className="Homepage-header">
-
-          {ButtonAppBar()}
 
           <b style={{ color: 'black', fontSize:100}}>GRIDLOCK</b>
           <p></p>
@@ -143,6 +124,10 @@ export default function Homepage() {
   return (
     <Router>
       <div>
+        {PersistentDrawerLeft()}
+
+      </div>
+      <div>
 
 
         {/* A <Switch> looks through its children <Route>s and
@@ -154,7 +139,7 @@ export default function Homepage() {
           <Route path="/profile">
             <Profile />
           </Route>
-          <Route path="/game">
+          <Route path="/play">
             <Game />
           </Route>
           <Route path="/about"> {/*Rename to whatever but rename the called function and any href links that go to about*/}
