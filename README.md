@@ -264,7 +264,7 @@ GET methods get data from Google Firestore. These methods will either return the
 * [Get All the Grids Created by a Certain User](#getGridsCreatedByUser)
 * [Get All Grids that the Current User Follows](#getGridsFollowedForUser)
 * [Get a Grid Object for the Current User](#getGridForUser)
-* [Get a Grid Object an Unregistered User](#getGridForUnregisteredUser)
+* [Get a Grid Object for an Unregistered User](#getGridForUnregisteredUser)
 * [Get Like Object](#getLike)
 * [Get Top Five Scores for a Certain Grid](#getTopFiveScoresForGrid)
 * [Get Trending Grids for an Unregistered User](#getTrendingGridsForUnregisteredUser)
@@ -356,7 +356,6 @@ async function myFunction() {
   console.log(grid);
 }
 ```
-
 
 #### <a name="getGridForUnregisteredUser" />`Firestore.get.gridForUnregisteredUser(gridId)`
 Gets the grid object for a user who is not logged in. The gridId is the requested grid object. Note: all Firestore functions do this automatically.
