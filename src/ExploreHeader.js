@@ -14,7 +14,7 @@ function ExploreHeader() {
 
             <div className="Explore">
                 <a
-                  className="App-link"
+                  className="Explore-link"
                   href="https://reactjs.org"
                   target="_blank"
                   rel="noopener noreferrer"

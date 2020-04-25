@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './ExploreMode.css';
-//import GameCard from './gameCard2.js';
 import GameCards from './gameCards.js';
-import Firestore from './services/firestore.js';
 import ExploreHeader from './ExploreHeader.js';
 
 function ExplorePage() {
@@ -13,16 +11,16 @@ function ExplorePage() {
 
   // useEffect will trigger when the array items in the second argument are
   // updated so whenever game is updated
-  useEffect(() => {
-    setExploreGames(games);
-  }, [games]);
+  // useEffect(() => {
+  //   setExploreGames(games);
+  // }, [games]);
 
   return (
     <div>
       <ExploreHeader/>
       <div className="Explore">
-        <header className="App-header">
-          <GameCards gameCards={exploreGames} />
+        <header className="Explore-header">
+          <GameCards/>
        </header>
       </div>
     </div>
