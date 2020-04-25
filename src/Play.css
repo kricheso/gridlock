@@ -23,15 +23,22 @@
   flex-shrink: 10;
 }
 
+@font-face {
+  font-family: stopwatch;
+  src: url(stopwatch.ttf);  /* Source: https://www.dafont.com/ds-digital.font */
+}
+
 .stopwatch-display {
   position: relative;
   margin: auto;
   top: 45%;
   font-size: 300%;
   color: #666;
-  border-radius: 10%;
   border: #666 solid;
+  border-radius: 10%;
   margin: auto;
   text-align: center;
-  width: 60%;
+  width: 45%;
+  font-family: stopwatch;
 }
+
