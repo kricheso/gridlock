@@ -40,7 +40,7 @@ function SingleCard({ name, author, gameLink, numberOfLikes }) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary" href="/game">
+        <Button size="small" color="primary" href="/play">
           Play
         </Button>
         <Button size="small" color="primary">
