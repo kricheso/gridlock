@@ -15,11 +15,7 @@ import FirestoreManualTests from './services/tests/firestoreManualTests.js';
 
 ReactDOM.render(
   <React.StrictMode>
-    <ExplorePage />
-    <Play/>
     <Homepage />
-    <Profile />
-    <FirestoreManualTests />
   </React.StrictMode>,
   document.getElementById("root")
 );
