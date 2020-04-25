@@ -1,21 +1,26 @@
-.trophy {
-  float: left;
-  background-image: url('Trophy.svg');
-  background-size: contain;
-  width: 300px;
-  height: 300px;
+.play-component {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding-top: 10%;
 }
 
-.game {
-  float: left;
+.trophy {
+  background-image: url('Trophy.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 300px;
+  height: 300px;
+  flex-shrink: 10;
 }
 
 .stopwatch {
-  float: right;
   background-image: url('StopWatch.svg');
   background-size: contain;
+  background-repeat: no-repeat;
   width: 300px;
   height: 300px;
+  flex-shrink: 10;
 }
 
 .stopwatch-display {
