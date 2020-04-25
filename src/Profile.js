@@ -32,7 +32,7 @@ export default function MediaCard() {
               Gridlock
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-              Kousei's course 2
+              Kousei course 2
             </Typography>
           </CardContent>
         </CardActionArea>

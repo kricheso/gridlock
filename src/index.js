@@ -13,10 +13,10 @@ import FirestoreManualTests from './services/tests/firestoreManualTests.js';
 
 ReactDOM.render(
   <React.StrictMode>
-    <ExplorePage />
-    <Play/>
-    <App />
-    <FirestoreManualTests />
+    {/*/<ExplorePage />
+    //<Play/>
+    //<App />
+    //<FirestoreManualTests />*/}
     <Homepage />
   </React.StrictMode>,
   document.getElementById("root")
