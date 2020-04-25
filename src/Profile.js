@@ -50,19 +50,19 @@ export default function CreatedGrid() {
     console.log(user.photoUrl);
   }
 
-    return (
-      <div className="board">
-        <img src={profilpic} alt="Girl in a jacket" width="150" height="150" />
-        {grid_list.map((grid, i) => {
-          return (
-            <SingleCard
-              name={grid.title}
-              author={username}
-              gameLink={profilpic}
-              numberOfLikes={grid.numberOfLikes}
-            />
-          );
-        })}
-      </div>
-    );
-  }
+  return (
+    <div className="board">
+      <img src={profilpic} alt="Girl in a jacket" width="150" height="150" />
+      {grid_list.map((grid, i) => {
+        return (
+          <SingleCard
+            name={grid.title}
+            author={username}
+            gameLink={profilpic}
+            numberOfLikes={grid.numberOfLikes}
+          />
+        );
+      })}
+    </div>
+  );
+}
