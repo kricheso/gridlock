@@ -51,61 +51,18 @@ export default function CreatedGrid() {
   }
 
   return (
-    <div>
-      <Card className={classes.root}>
-        <CardActionArea>
-          <CardMedia className={classes.media} />
-
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
-              Gridlock
-            </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
-              Kousei course 2
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-        <CardActions>
-          <Button size="small" color="primary">
-            Play
-          </Button>
-          <Button size="small" color="primary">
-            Delete
-          </Button>
-        </CardActions>
-      </Card>
+    <div className="board">
+      <img src={profilpic} alt="Girl in a jacket" width="150" height="150" />
+      {grid_list.map((grid, i) => {
+        return (
+          <SingleCard
+            name={grid.title}
+            author={username}
+            gameLink={profilpic}
+            numberOfLikes={grid.numberOfLikes}
+          />
+        );
+      })}
     </div>
   );
 }
-
-// return (
-//   <div className="board">
-//     {grid_list.map((grid, i) => {
-//       return (
-//         <Card className={classes.root}>
-//           <CardActionArea>
-//             <CardMedia className={classes.media} />
-
-//             <CardContent>
-//               <Typography gutterBottom variant="h5" component="h2">
-//                 {grid.title}
-//               </Typography>
-//               <Typography variant="body2" color="textSecondary" component="p">
-//                 {username}
-//               </Typography>
-//             </CardContent>
-//           </CardActionArea>
-//           <CardActions>
-//             <Button size="small" color="primary">
-//               Play
-//             </Button>
-//             <Button size="small" color="primary">
-//               Delete
-//             </Button>
-//           </CardActions>
-//         </Card>
-//       );
-//     })}
-//   </div>
-// );
-// }
