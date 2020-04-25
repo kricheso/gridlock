@@ -9,6 +9,7 @@ import Play from './Play.js';
 import Create from './Create.js';
 import Homepage from './Homepage.js';
 import Grid from "./grid_generator";
+import Profile from './Profile.js';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -16,6 +17,7 @@ ReactDOM.render(
     <Play/>
     <App />
     <Homepage />
+    <Profile />
   </React.StrictMode>,
   document.getElementById("root")
 );

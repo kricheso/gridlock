@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './ExploreMode.css';
-//import GameCard from './gameCard2.js';
 import GameCards from './gameCards.js';
 import Firestore from './services/firestore.js';
 import ExploreHeader from './ExploreHeader.js';
