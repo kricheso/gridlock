@@ -1,0 +1,10 @@
+.newCard{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.plusSign{
+
+	height:100px;
+	width:100px;
+}

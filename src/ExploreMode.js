@@ -17,7 +17,6 @@ function ExplorePage() {
 
   return (
     <div>
-      <ExploreHeader/>
       <div className="Explore">
         <header className="Explore-header">
           <GameCards/>

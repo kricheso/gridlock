@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import SingleCard from './card.js';
+import NewCard from './NewCard.js';
+import './gameCards.css';
 import Firestore from './services/firestore.js';
 import firebaseConfig from './services/firestore.js'; // Must be present to initialize database.
 
@@ -29,9 +31,8 @@ function GameCards() {
   console.log(grid_list)
 
      return (
-       <div>
-       {grid_list ? grid_list[0].creatorDisplayName : " "}
-        <div>
+        <div className="Explore-body">
+        <NewCard />
        {grid_list ? (grid_list).map(function(grid, key) {
           return < SingleCard
           name = {grid.title}
@@ -40,7 +41,6 @@ function GameCards() {
           numberOfLikes = {grid.numberOfLikes}
           />
         }) : " "}
-      </div>
       </div>
 
     );
