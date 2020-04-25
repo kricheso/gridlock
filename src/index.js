@@ -8,14 +8,15 @@ import ExplorePage from "./ExploreMode.js";
 import Play from "./Play.js";
 import Create from "./Create.js";
 import Homepage from "./Homepage.js";
-import Profile from "./Profile.js";
+import Grid from "./grid_generator";
+import FirestoreManualTests from "./services/tests/firestoreManualTests.js";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Profile />
-    <ExplorePage />
-    <Play />
-    <App />
+    {/*/<ExplorePage />
+    //<Play/>
+    //<App />
+    //<FirestoreManualTests />*/}
     <Homepage />
   </React.StrictMode>,
   document.getElementById("root")
