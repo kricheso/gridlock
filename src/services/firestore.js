@@ -440,6 +440,30 @@ class Firestore {
             catch { return Error.firebaseFaliure(); }
         }
 
+        static async gridForUser(userId, gridId) {
+            if (await Firestore.get.user(userId) === null) { return Error.invalidUser() }
+            const grid = await Firestore.get.gridForUnregisteredUser(gridId);
+            if (grid === null) { return null; }
+            if (await Firestore.get.like(userId, grid.id) !== null) { grid[Consts.liked] = true; }
+            return grid;
+        }
+
+        static async gridForUnregisteredUser(gridId) {
+            if (typeof(gridId) !== Type.string) { return Error.invalidType(); }
+            try { 
+                const doc = await REF.GRIDS.doc(gridId).get();
+                if (!doc.exists) { return null; }
+                const dict = doc.data();
+                const user = await Firestore.get.user(dict.creatorId);
+                if (user === null) { return Error.firebaseFaliure() }
+                dict[Consts.creatorDisplayName] = user.displayName;
+                dict[Consts.data] = Firestore.HASH.convertToGridDataMatrix(dict.data);
+                dict[Consts.liked] = false;
+                return dict;
+            }
+            catch { return Error.firebaseFaliure(null); }
+        }
+
         static async gridsCreatedByUser(id, requestorId) {
             if (typeof(id) !== Type.string) { return Error.invalidType(); }
             if (typeof(requestorId) !== Type.string && requestorId !== null) { return Error.invalidType(); }
@@ -532,6 +556,7 @@ class Firestore {
         }
 
         static async trendingGridsForUser(id) {
+            if (typeof(id) !== Type.string) { return Error.invalidType(); }
             if (await Firestore.get.user(id) === null) { return Error.invalidUser(); }
             const grids = await Firestore.get.trendingGridsForUnregisteredUser();
             if (grids === null) { return null; }
@@ -548,6 +573,25 @@ class Firestore {
                 return doc.exists ? doc.data() : null; 
             }
             catch { return Error.firebaseFaliure(null); }
+        }
+
+        static async usersWhoLikedGrid(gridId) {
+            if (typeof(gridId) !== Type.string) { return Error.invalidType(); }
+            try {
+                if (await Firestore.get.doesGridExist(gridId) !== true) { return Error.invalidGrid(); }
+                let users = [];
+                const likes = await REF.GRIDS.doc(gridId).collection(Consts.likes).get();
+                for (const like of likes.docs) {
+                    const user = await Firestore.get.user(like.data().userId);
+                    if (user === null) { 
+                        Error.firebaseFaliure();
+                        continue; 
+                    }
+                    users.push(user)
+                }
+                return users;
+            }
+            catch { return Error.firebaseFaliure(); }
         }
 
     }

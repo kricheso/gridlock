@@ -13,16 +13,46 @@ import unlock from './unlock.png'
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Authentication from './services/authentication.js';
-//import ButtonAppBar from './nav.js';
+import ButtonAppBar from './nav.js';
+import Firestore from './services/firestore.js';
 //import TemporaryDrawer from './navSide.js';
+import ExplorePage from './ExploreMode.js'
+import Play from './Play.js'
+import MediaCard from './Profile.js'
 
-
-function About() {
-  return <h2>Explore</h2>;
+function Explore() {
+  return(
+    <div>
+      {ExplorePage()}
+    </div>
+    
+  );
 }
 
-function Users() {
-  return <h2>Profile</h2>;
+function Profile() {
+  return (
+    <div>
+      {MediaCard()}
+    </div>
+  );
+}
+
+function Game(){
+  const dict = {userId : "kricheso@google.com", gridId : "board1_by_kricheso@google.com"}
+
+  return(
+    <div>
+      {Play(dict)}
+    </div>
+  );
+}
+
+// Change function name to whatever route
+function About(){
+  return(
+    <div>
+    </div>
+  );
 }
 
 export default function Homepage() {
@@ -63,7 +93,7 @@ export default function Homepage() {
       <div className="Homepage">
         <header className="Homepage-header">
 
-
+          {ButtonAppBar()}
 
           <b style={{ color: 'black', fontSize:100}}>GRIDLOCK</b>
           <p></p>
@@ -100,29 +130,13 @@ export default function Homepage() {
           </div>
 
           <div>
-            <Button variant="contained" size="large" href="/about">
+            <Button variant="contained" size="large" href="/explore">
               Play
             </Button>
           </div>
         </header>
       </div>
 
-      // <div className="App">
-      //   <header className="App-header">
-      //     <img src={logo} className="App-logo" alt="logo" />
-      //     <p>
-      //       Edit <code>src/App.js</code> and save to reload.
-      //     </p>
-      //     <a
-      //       className="App-link"
-      //       href="https://reactjs.org"
-      //       target="_blank"
-      //       rel="noopener noreferrer"
-      //     >
-      //       Learn React
-      //     </a>
-      //   </header>
-      // </div>
     );
   }
 
@@ -134,11 +148,17 @@ export default function Homepage() {
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
         <Switch>
-          <Route path="/about">
-            <About />
+          <Route path="/explore">
+            <Explore />
           </Route>
-          <Route path="/users">
-            <Users />
+          <Route path="/profile">
+            <Profile />
+          </Route>
+          <Route path="/game">
+            <Game />
+          </Route>
+          <Route path="/about"> {/*Rename to whatever but rename the called function and any href links that go to about*/}
+            <About />
           </Route>
           <Route path="/">
             <Home />
