@@ -1,9 +1,21 @@
+.Homepage-title{
+  font-size: 45px;
+  color: black;
+
+}
+
 .Homepage {
   text-align: center;
 }
 
-.Homepage-logo {
+/*.Homepage-logo {
   height: 40vmin;
+  pointer-events: none;
+}*/
+
+.Homepage-logo {
+  margin: 5vh;
+  height: 30vmin;
   pointer-events: none;
 }
 
@@ -15,11 +27,11 @@
 
 .Homepage-header {
   background-color: #282c34;
-  background-image: url(http://fullhdwall.com/wp-content/uploads/2017/12/Floral-Grid-Wallpaper.jpg);
+  background-image: url("./floral_home_grid.jpg");
   background-position: center;
   background-repeat: repeat;
   background-size: cover;
-  min-height: 100vh;
+  min-height: calc(100vh - 64px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -30,6 +42,25 @@
 
 .Homepage-link {
   color: #61dafb;
+}
+
+.Homepage-buttons{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.MuiButtonBase-root.Homepage-button{
+  width: 100px;
+  margin:10px 10px;
+}
+
+@media(max-width: 500px){
+
+  .MuiButtonBase-root.Homepage-button{
+    width: 100%;
+  }
 }
 
 @keyframes App-logo-spin {

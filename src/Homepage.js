@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-//import './Homepage.css';
-import './Homepage2.css';
+import './Homepage.css';
 import './App.css';
 import lock from './lock.png'
 import unlock from './unlock.png'
