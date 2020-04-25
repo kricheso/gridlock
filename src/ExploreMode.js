@@ -11,16 +11,16 @@ function ExplorePage() {
 
   // useEffect will trigger when the array items in the second argument are
   // updated so whenever game is updated
-  useEffect(() => {
-    setExploreGames(games);
-  }, [games]);
+  // useEffect(() => {
+  //   setExploreGames(games);
+  // }, [games]);
 
   return (
     <div>
       <ExploreHeader/>
       <div className="Explore">
         <header className="Explore-header">
-          <GameCards gameCards={exploreGames} />
+          <GameCards/>
        </header>
       </div>
     </div>
