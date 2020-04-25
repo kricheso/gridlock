@@ -1,0 +1,28 @@
+.Explore-body{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	overflow-y:scroll;
+	width:100vw;
+}
+.MuiPaper-root.MuiCard-root{
+	margin: 20px 4%;
+	width: 25%;
+	height: 195px;
+/*	25% 25% 25% = 75%
+	25% leftover
+	25/3 = ~8%
+	left and right %4*/
+}
+@media(max-width: 900px){
+	.MuiPaper-root.MuiCard-root{
+		margin:20px 5%;
+		width:40%;
+	}
+}
+@media(max-width: 600px){
+	.MuiPaper-root.MuiCard-root{
+		margin:20px 10%;
+		width:80%;
+	}
+}

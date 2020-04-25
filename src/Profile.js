@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import Firestore from "./services/firestore";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
+import "./Profile.css";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import plusSign from "./plusSign.png"
 
 import SingleCard from "./card.js";
 import logo from "./logo.svg";
@@ -32,6 +34,10 @@ export default function CreatedGrid() {
 
   const [grid_list, setgridlist] = useState([]);
 
+  const click = () => {
+    alert("click")
+  }
+
   useEffect(get_user, []);
   useEffect(load_grids, []);
 
@@ -52,7 +58,15 @@ export default function CreatedGrid() {
 
   return (
     <div className="board">
-      <img src={profilpic} alt="Girl in a jacket" width="150" height="150" />
+      <div className="profileCard">
+        <img className="profileImage" src={profilpic} alt="Girl in a jacket"/>
+        <div className="profileText">
+          <h2>My Name</h2>
+          <p><span className="star"></span> 100</p>
+          <button onClick={()=>click()}>Add Course</button>
+        </div>
+      </div>
+
       {grid_list.map((grid, i) => {
         return (
           <SingleCard

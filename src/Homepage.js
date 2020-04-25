@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-import './Homepage.css';
+//import './Homepage.css';
+import './Homepage2.css';
 import './App.css';
 import lock from './lock.png'
 import unlock from './unlock.png'
@@ -22,10 +23,11 @@ export default function Homepage() {
   return (
     <div className="Homepage">
       <header className="Homepage-header">
+      <b className="Homepage-title" >GRIDLOCK</b>
 
-        <b style={{ color: 'black', fontSize:100}}>GRIDLOCK</b>
         <p></p>
 
+        <div>
         {user == null ? (
           <div>
           <Button onClick={() => {loginPress()}}>
@@ -36,9 +38,9 @@ export default function Homepage() {
             <img src={unlock} className="Homepage-logo" alt="logo" />
           </div>
         }
-        
+         </div>
         <p></p>
-        
+
         <div>
           <Button variant="contained" size="large" href="/explore">
             Play

@@ -1,0 +1,25 @@
+.profileCard{
+	margin: 0 4%;
+	width:92%;
+	height: 195px;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	position: relative;
+}
+.profileImage{
+	position: absolute;
+	height: 195px;
+	width: 195px;
+}
+.profileText{
+	width:calc(100% - 195px);
+	margin-left:195px;
+}
+.star{
+	display: inline-block;
+	/*background-image: url("./plusSign.png");*/
+	background-color: red;
+	height:20px;
+	width:20px;
+}
