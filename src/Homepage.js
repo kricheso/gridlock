@@ -5,6 +5,45 @@ import lock from './lock.png'
 import unlock from './unlock.png'
 import Button from '@material-ui/core/Button';
 import Authentication from './services/authentication.js';
+import PersistentDrawerLeft from './nav.js';
+import ExplorePage from './ExploreMode.js'
+import Play from './Play.js'
+import MediaCard from './Profile.js'
+
+function Explore() {
+  return(
+    <div>
+      {ExplorePage()}
+    </div>
+
+  );
+}
+
+function Profile() {
+  return (
+    <div>
+      {MediaCard()}
+    </div>
+  );
+}
+
+function Game(){
+  const dict = {userId : "kricheso@google.com", gridId : "board1_by_kricheso@google.com"}
+
+  return(
+    <div>
+      {Play(dict)}
+    </div>
+  );
+}
+
+// Change function name to whatever route
+function About(){
+  return(
+    <div>
+    </div>
+  );
+}
 
 export default function Homepage() {
   const [user, setUser] = useState(null);

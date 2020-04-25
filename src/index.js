@@ -8,17 +8,16 @@ import ExplorePage from './ExploreMode.js';
 import Play from './Play.js';
 import Create from './Create.js';
 import Homepage from './Homepage.js';
+import Profile from './Profile.js';
 import Grid from "./grid_generator";
 import FirestoreManualTests from './services/tests/firestoreManualTests.js';
 import Routing from './Routing.js'
 
+
 ReactDOM.render(
   <React.StrictMode>
-    {/*/<ExplorePage />
-    //<Play/>
-    //<App />
-    //<FirestoreManualTests />*/}
     <Routing />
+    <Homepage />
   </React.StrictMode>,
   document.getElementById("root")
 );
