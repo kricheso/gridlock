@@ -27,7 +27,7 @@ export default function CreatedGrid() {
   const classes = useStyles();
 
   const [username, setUsername] = useState("");
-  const [profilpic, setProfilpic] = useState("");
+  const [profilepicture, setProfilpic] = useState("");
 
   const [id, setid] = useState("kousei.richeson@gmail.com");
   const [requestorid, setrequestorid] = useState("kousei.richeson@gmail.com");
@@ -59,7 +59,7 @@ export default function CreatedGrid() {
   return (
     <div className="board">
       <div className="profileCard">
-        <img className="profileImage" src={profilpic} alt="Girl in a jacket"/>
+        <img className="profileImage" src={profilepicture} alt="Girl in a jacket"/>
         <div className="profileText">
           <h2>My Name</h2>
           <p><span className="star"></span> 100</p>
@@ -72,7 +72,7 @@ export default function CreatedGrid() {
           <SingleCard
             name={grid.title}
             author={username}
-            gameLink={profilpic}
+            gameLink={profilepicture}
             numberOfLikes={grid.numberOfLikes}
           />
         );

@@ -24,21 +24,19 @@ function SingleCard({ name, author, gameLink, numberOfLikes }) {
 
   return (
     <Card className={classes.root}>
-      <CardActionArea>
         <CardMedia
           className={classes.media}
-          image="/static/images/cards/contemplative-reptile.jpg"
-          title="Contemplative Reptile"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
             {name}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
+          <CardActionArea>
             By <Button href="/profile">{author}</Button>
+            </CardActionArea>
           </Typography>
         </CardContent>
-      </CardActionArea>
       <CardActions>
         <Button size="small" color="primary" href="/play">
           Play
