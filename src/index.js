@@ -10,6 +10,7 @@ import Create from './Create.js';
 import Homepage from './Homepage.js';
 import Grid from "./grid_generator";
 import FirestoreManualTests from './services/tests/firestoreManualTests.js';
+import Routing from './Routing.js'
 
 ReactDOM.render(
   <React.StrictMode>
@@ -17,7 +18,7 @@ ReactDOM.render(
     //<Play/>
     //<App />
     //<FirestoreManualTests />*/}
-    <Homepage />
+    <Routing />
   </React.StrictMode>,
   document.getElementById("root")
 );
