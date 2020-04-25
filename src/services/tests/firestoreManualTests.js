@@ -31,14 +31,14 @@ function FirestoreManualTests() {
       ["S", "1", "0"],
       ["0", "1", "F"]
     ];
-    const grid = await Firestore.add.grid(userId, "title1", matrix);
+    const grid = await Firestore.add.grid(userId, "title3", matrix);
     if (grid === null) { console.log("add grid failed"); return; }
     console.log("added grid");
     console.log(grid);
   }
 
   async function removeGrid() {
-    const id = Firestore.HASH.convertToGridId(userId, "title1");
+    const id = Firestore.HASH.convertToGridId(userId, "title3");
     const success = await Firestore.remove.grid(id);
     if (success === false) { console.log("remove grid failed"); return; }
     console.log("removed grid");
@@ -165,7 +165,7 @@ function FirestoreManualTests() {
     <div className="FirestoreManualTests">
       <header className="FirestoreManualTests-header">
         <h2>Firestore Testing and Manipulation File</h2>
-        <p>Please visit gridlock firebase console if you want to view live database changes. Open web console to see print statments.</p>
+        <p>Please visit gridlock firebase console if you want to view live database changes. Open web console to see print statments. Feel free to change the parameters in this file.</p>
         { userId ? (<>  
           <p>Hello { userId }!</p>      
           <button onClick={ logout }> 
