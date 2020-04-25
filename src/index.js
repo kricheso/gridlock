@@ -9,13 +9,14 @@ import Play from './Play.js';
 import Create from './Create.js';
 import Homepage from './Homepage.js';
 import Grid from "./grid_generator";
-import Profile from './Profile.js';
+import FirestoreManualTests from './services/tests/firestoreManualTests.js';
 
 ReactDOM.render(
   <React.StrictMode>
     <ExplorePage />
     <Play/>
     <App />
+    <FirestoreManualTests />
     <Homepage />
     <Profile />
   </React.StrictMode>,

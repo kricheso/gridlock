@@ -69,6 +69,18 @@ $ git pull  # Pull updates from github before implementing next feature.
 * `git checkout branch_name` - Switch to an existing branch.
 * `git reset --soft HEAD^` - Undo the last commit without losing changes.
 
+### Common Issues:
+
+If you get a merge conflict involving package-lock.json or package.json, just copy the versions of those files from  github, then reinstall any packages that you've added.  This is faster since these files are pretty verbose.  So for example:
+```
+# Overwrite files with what's on Github:
+$ git checkout master -- package.json
+$ git checkout master -- package-lock.json
+
+# Replace this library with whatever you've installed to make your changes work.
+$ npm install @material-ui/core
+```
+
 ## <a name="Objects" />Objects
 Gridlock has three main objects: [Grid](#Grid), [Score](#Score), and [User](#User) objects.
 
@@ -251,11 +263,14 @@ GET methods get data from Google Firestore. These methods will either return the
 * [Get All Users a Certain Person is Following](#getFollowing)
 * [Get All the Grids Created by a Certain User](#getGridsCreatedByUser)
 * [Get All Grids that the Current User Follows](#getGridsFollowedForUser)
+* [Get a Grid Object for the Current User](#getGridForUser)
+* [Get a Grid Object an Unregistered User](#getGridForUnregisteredUser)
 * [Get Like Object](#getLike)
 * [Get Top Five Scores for a Certain Grid](#getTopFiveScoresForGrid)
 * [Get Trending Grids for an Unregistered User](#getTrendingGridsForUnregisteredUser)
 * [Get Trending Grids for the Current User](#getTrendingGridsForUser)
 * [Get User Object](#getUser)
+* [Get All Users Who Liked a Certain Grid](#getUsersWhoLikedGrid)
 
 #### <a name="getDoesGridExist" />`Firestore.get.doesGridExist(id)`
 Determines if a grid exists. Note: all Firestore functions do this automatically.
@@ -327,6 +342,36 @@ async function myFunction() {
 }
 ```
 
+#### <a name="getGridForUser" />`Firestore.get.gridForUser(userId, gridId)`
+Gets the grid object for a logged in user. UserId corresponds to the user's id (which is the same as their email address) that is currently logged in. The gridId is the requested grid object. Note: all Firestore functions do this automatically.
+* <b>userId</b> `String` - The id of the logged in user.
+* <b>gridId</b> `String` - The id of the grid.
+* <b>Returns:</b> `Grid?` - The grid object that was queried.
+
+<b>Example usage:</b>
+```javascript
+async function myFunction() {
+  const grid = await Firestore.get.gridForUser("bryan@google.com", "title1_by_kousei.richeson@gmail.com");
+  if (grid === null) { /* does not exist */ }
+  console.log(grid);
+}
+```
+
+
+#### <a name="getGridForUnregisteredUser" />`Firestore.get.gridForUnregisteredUser(gridId)`
+Gets the grid object for a user who is not logged in. The gridId is the requested grid object. Note: all Firestore functions do this automatically.
+* <b>gridId</b> `String` - The id of the grid.
+* <b>Returns:</b> `Grid?` - The grid object that was queried.
+
+<b>Example usage:</b>
+```javascript
+async function myFunction() {
+  const grid = await Firestore.get.gridForUnregisteredUser("title1_by_kousei.richeson@gmail.com");
+  if (grid === null) { /* does not exist */ }
+  console.log(grid);
+}
+```
+
 #### <a name="getLike" />`Firestore.get.like(userId, gridId)`
 Gets the like object for the corresponding user and grid. Note: all Firestore functions do this automatically.
 * <b>userId</b> `String` - The id of the user who liked a certain grid.
@@ -394,6 +439,20 @@ async function myFunction() {
   const user = await Firestore.get.user("bryan@google.com");
   if (user === null) { /* does not exist */ }
   console.log(user);
+}
+```
+
+#### <a name="getUsersWhoLikedGrid" />`Firestore.get.usersWhoLikedGrid(gridId)`
+Gets a list of all the users who liked a specific grid.
+* <b>gridId</b> `String` - The id of the grid.
+* <b>Returns:</b> `[User]?` - An array of [user](#User) objects.
+
+<b>Example usage:</b>
+```javascript
+async function myFunction() {
+  const users = await Firestore.get.usersWhoLikedGrid("title1_by_kousei.richeson@gmail.com");
+  if (users === null) { /* error */ }
+  console.log(users);
 }
 ```
 
