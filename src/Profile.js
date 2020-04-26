@@ -23,8 +23,9 @@ const useStyles = makeStyles({
   },
 });
 
-export default function CreatedGrid() {
+export default function Profile(props) {
   const classes = useStyles();
+  const profileId = props ? props.profileId : '';
 
   const [username, setUsername] = useState("");
   const [profilepicture, setProfilpic] = useState("");
