@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Create(props) {
   const [grid, setGrid] = useState([]);
+  const [solution, setSolution] = useState(null);
   const [user, setUser] = useState(null);
   const classes = useStyles();
 
@@ -49,7 +50,7 @@ function Create(props) {
     let fields = e.target.elements;
     let title = fields['title'].value;
     let email = user ? user.id : "kricheso@google.com";
-    const createdGrid = await Firestore.add.grid(email, title, grid, [[1,0],[1,1]]);
+    const createdGrid = await Firestore.add.grid(email, title, grid, solution);
     if (!createdGrid) {
       // Todo: Surface errors from Firestore.add.grid.
       // Todo: Check if user has made any moves (that also gives an error since Firestore.add.grid checks for start and end).
@@ -80,7 +81,7 @@ function Create(props) {
         Save
     </Button>
     </form>
-    <Board setGrid={setGrid} />
+    <Board setGrid={setGrid} setSolution={setSolution} />
     </div>
   );
 }
