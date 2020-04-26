@@ -15,11 +15,8 @@ function GameCards() {
   useEffect(load_grids, []);
 
   async function getCurrentUser() {
-    console.log("inside getCurrentUser ");
     const user = await Authentication.currentUser();
     if (user === null) { console.log("error or the user is not logged in"); return; }
-    console.log("get current user success");
-    console.log(user);
     setCurrentUser(user);
   }
 
