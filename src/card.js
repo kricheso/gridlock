@@ -62,7 +62,6 @@ function SingleCard({ name, author, gameLink, numberOfLikes, currentUser, gridID
     console.log("get all grid likers success");
     console.log(likers);
     setLikers(likers);
-    return likers;
   }
 
 
@@ -114,8 +113,10 @@ function SingleCard({ name, author, gameLink, numberOfLikes, currentUser, gridID
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = event => {
-    getAllLikers(gridID)
-    setAnchorEl(event.currentTarget);
+    if (likers.length != 0 ){
+      setAnchorEl(event.currentTarget);
+    }
+
   };
 
   const handleClose = () => {
@@ -138,10 +139,10 @@ function SingleCard({ name, author, gameLink, numberOfLikes, currentUser, gridID
           </Typography>
         </CardContent>
       <CardActions>
-        <Button size="small" color="primary" href="/play">
+        <Button size="small" color="primary"  href={'/play/' + gridID}  >
           Play
         </Button>
-        <Button size="small" color="primary" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} >
+        <Button size="small" color="primary" aria-controls="simple-menu"  aria-haspopup="true" onClick={handleClick} >
           {numberOfLikes} Likes
         </Button>
         <Menu
