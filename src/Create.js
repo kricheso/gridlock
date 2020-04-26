@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import SaveIcon from '@material-ui/icons/Save';
 import Board from './Board';
+import Authentication from './services/authentication.js';
 
 const useStyles = makeStyles((theme) => ({
   page: {
@@ -30,21 +31,34 @@ const useStyles = makeStyles((theme) => ({
 
 function Create(props) {
   const [grid, setGrid] = useState([]);
+  const [user, setUser] = useState(null);
   const classes = useStyles();
+
+  async function getCurrentUser() {
+    // User login only works after doing some other firebase call:
+    const _ = await Firestore.get.doesGridExist("null_id");
+    const _user = await Authentication.currentUser();
+    if (!_user) { console.log("error or the user is not logged in"); return; }
+    setUser(user);
+    console.log(_user);
+  }
+  useEffect(getCurrentUser, []);
 
   async function saveGrid(e) {
     e.preventDefault();
     let fields = e.target.elements;
-    let email = "azeezah@google.com";
     let title = fields['title'].value;
-    console.log(title);
-    console.log(email);
-    const createdGrid = await Firestore.add.grid(email, title, grid,[[1,0],[1,1]] );
-    if (createdGrid === null) {
+    let email = user ? user.id : "kricheso@google.com";
+    const createdGrid = await Firestore.add.grid(email, title, grid, [[1,0],[1,1]]);
+    if (!createdGrid) {
+      // Todo: Surface errors from Firestore.add.grid.
+      // Todo: Check if user has made any moves (that also gives an error since Firestore.add.grid checks for start and end).
        alert("You already have a board with that name!");
+    } else {
+      alert("Grid saved!");
+      console.log(createdGrid);
+      return false;  // Form onSubmit must return false.
     }
-    console.log(createdGrid);
-    return false;
   }
 
   return (
