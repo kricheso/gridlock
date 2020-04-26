@@ -33,6 +33,7 @@ function Create(props) {
   const [grid, setGrid] = useState([]);
   const [solution, setSolution] = useState(null);
   const [user, setUser] = useState(null);
+  const defaultUserId = "kricheso@google.com";
   const classes = useStyles();
 
   async function getCurrentUser() {
@@ -40,7 +41,7 @@ function Create(props) {
     const _ = await Firestore.get.doesGridExist("null_id");
     const _user = await Authentication.currentUser();
     if (!_user) { console.log("error or the user is not logged in"); return; }
-    setUser(user);
+    setUser(_user);
     console.log(_user);
   }
   useEffect(getCurrentUser, []);
@@ -49,7 +50,7 @@ function Create(props) {
     e.preventDefault();
     let fields = e.target.elements;
     let title = fields['title'].value;
-    let email = user ? user.id : "kricheso@google.com";
+    let email = user ? user.id : defaultUserId;
     const createdGrid = await Firestore.add.grid(email, title, grid, solution);
     if (!createdGrid) {
       // Todo: Surface errors from Firestore.add.grid.
