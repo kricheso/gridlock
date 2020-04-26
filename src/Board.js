@@ -29,6 +29,7 @@ function Board(props) {
   const [moves, setMoves] = useState([start.x+';'+start.y]);
   const [curr_x, setCurr_x] = useState(start.x);
   const [curr_y, setCurr_y] = useState(start.y);
+  const [frozen, setFrozen] = useState(false);
 
   useEffect(generate_board, [moves])
   useEffect(maybe_finish_game, [moves])
@@ -41,8 +42,9 @@ function Board(props) {
   }
 
   function maybe_finish_game() {
-    if (moves.length === BOARD_SIZE) {
+    if (moves.length === BOARD_SIZE && props.finishGame) {
       props.finishGame();
+      setFrozen(true);
     }
   }
 
@@ -90,6 +92,7 @@ function Board(props) {
   }
 
   function exec_mv(dx, dy) {
+    if (frozen) { return; }
     const sq = (curr_x+dx)+";"+(curr_y+dy);
     if (sq === moves[moves.length-2]) {
       // Undo move.

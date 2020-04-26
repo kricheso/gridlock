@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'flex-end',
   },
   content: {
-    flexGrow: 1, 
+    flexGrow: 1,
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -110,9 +110,9 @@ export default function PersistentDrawerLeft() {
         })}
       >
         <Toolbar>
-          <Grid 
+          <Grid
           justify="space-between" // Add it here :)
-          container 
+          container
           spacing={24}
           >
             <Grid item>
@@ -146,11 +146,11 @@ export default function PersistentDrawerLeft() {
                     }
                   </div>
                 }
-              </div>  
+              </div>
             </Grid>
           </Grid>
-          
-          
+
+
         </Toolbar>
       </AppBar>
       <Drawer
@@ -169,11 +169,11 @@ export default function PersistentDrawerLeft() {
         </div>
         <Divider />
         <List>
-          {['Home', 'Profile', 'Explore', 'Play'].map((text, index) => (
+          {['Home', 'Profile', 'Explore', 'Play', 'Create'].map((text, index) => (
             <ListItem key={text}>
               <Button href={"/"+text.toLowerCase()}>
                 <ListItemText primary={text} />
-              </Button>   
+              </Button>
             </ListItem>
           ))}
         </List>
