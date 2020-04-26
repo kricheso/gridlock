@@ -15,7 +15,7 @@ import Leaderboard from './models/Leaderboard/Leaderboard'
 
 // Note: some score attributes are missing. Testing purposes only.
 // const fakeHiscores = [
-//   {solveTime: 5000, userDisplayName: "Kousei Richeson", userId: "kousei.richeson@google.com"}, 
+//   {solveTime: 5000, userDisplayName: "Kousei Richeson", userId: "kousei.richeson@google.com"},
 //   {solveTime: 6000, userDisplayName: "Azeezah Muhammad", userId: "azeezah@google.com"}
 // ];
 
@@ -27,7 +27,6 @@ ReactDOM.render(
     //<FirestoreManualTests />
     <Leaderboard hiscores={fakeHiscores}/>
     */}
-    <FirestoreManualTests />
     <Routing />
   </React.StrictMode>,
   document.getElementById("root")

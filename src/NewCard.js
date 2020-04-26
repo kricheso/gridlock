@@ -16,13 +16,12 @@ const useStyles = makeStyles({
 
 function NewCard({ name, author, gameLink, numberOfLikes }) {
   const classes = useStyles();
-  const newGame = () => {
-    alert("new game")
-  }
+
   return (
-    <Card className={`${classes.root} newCard `} onClick={() => newGame()}>
+    <Card className={`${classes.root} newCard `} onClick={event => window.location.href='/play'}>
       <img className="plusSign" src={plusSign} />
     </Card>
   );
 }
+
 export default NewCard;
