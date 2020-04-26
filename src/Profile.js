@@ -10,7 +10,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
 import SingleCard from "./card.js";
-// import ExploreHeader from "./ExploreHeader.js";
+import logo from "./logo.svg";
 
 const useStyles = makeStyles({
   root: {
@@ -27,13 +27,13 @@ export default function CreatedGrid() {
   const [username, setUsername] = useState("");
   const [profilpic, setProfilpic] = useState("");
 
-  const [id, setid] = useState("kricheso@google.com");
-  const [requestorid, setrequestorid] = useState("kricheso@google.com");
+  const [id, setid] = useState("kousei.richeson@gmail.com");
+  const [requestorid, setrequestorid] = useState("kousei.richeson@gmail.com");
 
   const [grid_list, setgridlist] = useState([]);
 
-  useEffect(load_grids, []);
   useEffect(get_user, []);
+  useEffect(load_grids, []);
 
   async function load_grids() {
     const grids = await Firestore.get.gridsCreatedByUser(id, requestorid);
@@ -44,61 +44,25 @@ export default function CreatedGrid() {
   async function get_user() {
     const user = await Firestore.get.user(id);
     // If grid is null, set it to an empty grid instead.
-    console.log(user.photoUrl);
-    console.log(user.displayName);
-    console.log(user.displayName);
     setUsername(user.displayName || []);
     setProfilpic(user.photoUrl || []);
-    console.log(user.displayName);
+
+    console.log(user.photoUrl);
   }
 
-  //   return (
-  //     <div>
-  //       <div className="board">
-  //         <img src={profilpic} alt="Girl in a jacket" width="150" height="150" />
-  //         {grid_list.map((grid, i) => {
-  //           return (
-  //             <SingleCard
-  //               name={grid.title}
-  //               author={username}
-  //               gameLink={profilpic}
-  //               numberOfLikes={grid.numberOfLikes}
-  //             />
-  //           );
-  //         })}
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
   return (
-    <div>
-      <div className="board">
-        <header className="App-header">
-          <img
-            src={profilpic}
-            alt="User's profile picture"
-            width="150"
-            height="150"
+    <div className="board">
+      <img src={profilpic} alt="Girl in a jacket" width="150" height="150" />
+      {grid_list.map((grid, i) => {
+        return (
+          <SingleCard
+            name={grid.title}
+            author={username}
+            gameLink={profilpic}
+            numberOfLikes={grid.numberOfLikes}
           />
-          <h>{username}</h>
-          <h>
-            Number of Grids:
-            <h>{grid_list.length}</h>
-          </h>
-
-          {grid_list.map((grid, i) => {
-            return (
-              <SingleCard
-                name={grid.title}
-                author={username}
-                gameLink={profilpic}
-                numberOfLikes={grid.numberOfLikes}
-              />
-            );
-          })}
-        </header>
-      </div>
+        );
+      })}
     </div>
   );
 }
