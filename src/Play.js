@@ -2,14 +2,16 @@ import React, {useState, useEffect} from 'react';
 import Firestore from './services/firestore.js';
 import Board from './Board';
 import './Play.css';
+import ScoreDialog from './ScoreDialog';
 
 function Play(props) {
+  const {userId, gridId, ...other} = props;
   const [timeSec, setTimeSec] = useState(0);
   const [startTime, setStartTime] = useState(Date.now());
   const [intervalId, setIntervalId] = useState(null);
   const [grid, setGrid] = useState(null)
-  const userId = props.userId;
-  const gridId = props.gridId;
+  const [finished, setFinished] = useState(false);
+  const [score, setScore] = useState(0);
   const default_grid = [
     ["1", "1", "1", "1"],
     ["1", "1", "S", "1"],
@@ -40,9 +42,10 @@ function Play(props) {
       // Todo: Surface error to user.
       console.log("Couldn't upload score.");
     } else {
-      // Todo: Load leaderboard.
       console.log("Uploaded score.")
-      console.log(score_obj)
+      console.log(score_obj);
+      setFinished(true);
+      setScore(score_sec);
     }
   }
 
@@ -58,7 +61,7 @@ function Play(props) {
     setGrid(default_grid);
   }
 
-  return (
+  return (<>
     <div className="play-component">
       <div className="trophy"></div>
       <div>
@@ -74,7 +77,12 @@ function Play(props) {
         </div>
       </div>
     </div>
-  );
+    {
+      finished
+      ? <ScoreDialog score={score} />
+      : <></>
+    }
+  </>);
 }
 
  export default Play;
