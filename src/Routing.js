@@ -9,7 +9,7 @@ import PersistentDrawerLeft from './nav.js';
 import Homepage from './Homepage.js'
 import ExplorePage from './ExploreMode.js'
 import Play from './Play.js'
-import MediaCard from './Profile.js'
+import Profile from './Profile.js'
 import Create from './Create.js'
 import user from './nav.js'
 
@@ -19,14 +19,6 @@ function Explore() {
         {ExplorePage()}
       </div>
 
-    );
-  }
-
-  function Profile() {
-    return (
-      <div>
-        {MediaCard()}
-      </div>
     );
   }
 
@@ -61,6 +53,11 @@ function Explore() {
     return <Play gridId={gameid} />
   }
 
+  function ProfileById() {
+    let {profileid} = useParams();
+    return <Profile profileId={profileid} />
+  }
+
   export default function Routing(){
     return (
         <Router>
@@ -81,6 +78,9 @@ function Explore() {
             <Switch>
               <Route path="/explore">
                 <Explore />
+              </Route>
+              <Route path="/profile/:profileid">
+                <ProfileById />
               </Route>
               <Route path="/profile">
                 <Profile />
