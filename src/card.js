@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -27,7 +27,7 @@ function SingleCard({ name, author, gameLink, numberOfLikes, currentUser, gridID
   const classes = useStyles();
   const [likeText, setlikeText] = useState("Like");
   const [likers, setLikers] = useState(null);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [hasLiked, setHasLiked] = useState(false);
 
 
   async function likeGrid(currentUserId, gridID) {
@@ -54,9 +54,7 @@ function SingleCard({ name, author, gameLink, numberOfLikes, currentUser, gridID
     console.log(success);
     return true
   }
-  // useEffect(() => {
-  //   determineLikedText()
-  // }, [grid]);
+
 
   async function getAllLikers(gridID) {
     const likers = await Firestore.get.usersWhoLikedGrid(gridID);
@@ -67,42 +65,56 @@ function SingleCard({ name, author, gameLink, numberOfLikes, currentUser, gridID
     return likers;
   }
 
-  window.onload = function() {
+
+  useEffect(() => {
+    getAllLikers(gridID);
+  }, []);
+
+  useEffect(() => {
     determineLikedText();
-  };
+  }, [likers]);
 
-  function showLikers(){
-    const response = getAllLikers(gridID);
-    //var likerName = likers[0].displayName
+
+  function determineLikedText(){
+    console.log("sddcfdf")
+    if(hasLiked == false){
+      setlikeText("Like")
+
+    }
+    if(likers != null){
+      for (let likedUser in likers ){
+        if(currentUser.id = likers[likedUser].id){
+            setlikeText("Liked")
+            setHasLiked(true);
+             break;
+          }
+      }
+    }
   }
-
-
-  function determineLikedText(gridID){
-    const response = getAllLikers(gridID);
-
-    //console.log(response2)
-    console.log("responsessdggdgsgsshsh2")
-    console.log(response)
-
-
-  }
-  window.onload = determineLikedText;
 
   const doLike = (likedtxt, gridID) => {
-    determineLikedText(gridID);
     if(likedtxt ==  "Like"){ //&&user hasn't liked from db
       likeGrid(currentUser.id, gridID)
+      setHasLiked(true);
       setlikeText("Liked")
     }
     else if (likedtxt == "Liked"){
       setlikeText("Like")
       unlikeGrid(gridID)
+      setHasLiked(false);
+      for (let likedUser in likers ){
+        if(currentUser.id = likers[likedUser].id){
+            likers.splice(likedUser, 1)
+             break;
+          }
+      }
     }
   }
 
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = event => {
+    getAllLikers(gridID)
     setAnchorEl(event.currentTarget);
   };
 
@@ -110,12 +122,6 @@ function SingleCard({ name, author, gameLink, numberOfLikes, currentUser, gridID
     setAnchorEl(null);
   };
 
-  // {likers ? (likers).map(function(liker, key) {
-  //    return < SingleCard
-  //       <MenuItem > {liker}</MenuItem>
-  //
-  //    />
-  //  }) : " "}
   return (
     <Card className={classes.root}>
         <CardMedia
@@ -145,8 +151,8 @@ function SingleCard({ name, author, gameLink, numberOfLikes, currentUser, gridID
           open={Boolean(anchorEl)}
           onClose={handleClose}
           >
-          <MenuItem > user 1</MenuItem>
-          <MenuItem > user 1</MenuItem>
+          {likers ? (likers).map(function(liker, key) {
+             return < MenuItem > {liker.displayName} </MenuItem>}) : ""}
         </Menu>
         <Button size="small" color="primary" onClick={() => doLike(likeText, gridID)}>
           {likeText}
