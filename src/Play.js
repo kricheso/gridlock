@@ -12,6 +12,9 @@ function Play(props) {
   const [grid, setGrid] = useState(null)
   const [finished, setFinished] = useState(false);
   const [score, setScore] = useState(0);
+  const helpMessage = "Use the arrow keys to fill the grid!";
+  const [playedFirstMove, setPlayedFirstMove] = useState(false);
+
   const default_grid = [
     ["1", "1", "1", "1"],
     ["1", "1", "S", "1"],
@@ -61,6 +64,12 @@ function Play(props) {
     setGrid(default_grid);
   }
 
+  function checkFirstMove(e) {
+    if (e.key.startsWith("Arrow")) { setPlayedFirstMove(true)};
+  }
+
+  document.addEventListener("keydown", checkFirstMove);
+
   return (<>
     <div className="play-component">
       <div className="trophy"></div>
@@ -77,11 +86,8 @@ function Play(props) {
         </div>
       </div>
     </div>
-    {
-      finished
-      ? <ScoreDialog score={score} />
-      : <></>
-    }
+    { finished ? <ScoreDialog score={score} /> : "" }
+    { playedFirstMove ? "" : <div className="help"> {helpMessage} </div> }
   </>);
 }
 

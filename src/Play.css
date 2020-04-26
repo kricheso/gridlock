@@ -42,3 +42,10 @@
   font-family: stopwatch;
 }
 
+.help {
+  text-align: center;
+  width: 100%;
+  color: #777;
+  font-size: 20px;
+  font-weight: 600;
+}
