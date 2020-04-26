@@ -3,32 +3,44 @@ import SingleCard from './card.js';
 import NewCard from './NewCard.js';
 import './gameCards.css';
 import Firestore from './services/firestore.js';
-import firebaseConfig from './services/firestore.js'; // Must be present to initialize database.
-
-
+import firebaseConfig from './services/firestore.js';   // Must be present to initialize database.
+import Authentication from './services/authentication.js';
 
 
 function GameCards() {
 
-  const [id, setid] = useState();
   const [grid_list, setgridlist] = useState(null);
-  const [requestorid, setrequestorid] = useState("kousei.richeson@gmail.com");
+  const [user_grid_list, setUser_grid_list] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
+
   useEffect(load_grids, []);
 
-  const [user_grid_list, setUser_grid_list] = useState(null);
+  async function getCurrentUser() {
+    console.log("inside getCurrentUser ");
+    const user = await Authentication.currentUser();
+    if (user === null) { console.log("error or the user is not logged in"); return; }
+    console.log("get current user success");
+    console.log(user);
+    setCurrentUser(user);
+  }
 
   async function load_grids() {
    const grids = await Firestore.get.trendingGridsForUnregisteredUser();
     // If grid is null, set it to an empty grid instead.
+    const user =  getCurrentUser()
+    setCurrentUser(user);
     setgridlist(grids);
   }
   async function load_user_grids() {
    const grids = await Firestore.get.trendingGridsForUser();
     // If grid is null, set it to an empty grid instead.
-    setgridlist(grids);
+    setgridlist(user_grid_list);
   }
 
-  console.log(grid_list)
+
+
+  //console.log(grid_list)
+  //`{currentUser ?  currentUser : "default "}`
 
      return (
         <div className="Explore-body">
@@ -39,8 +51,8 @@ function GameCards() {
           author = {grid.creatorDisplayName}
           gameLink = {grid.creatorDisplayName}
           numberOfLikes = {grid.numberOfLikes}
-          creatorId = {grid.creatorId}
-          gridId = {grid.id}
+          gridID = {grid.id}
+          currentUser = {currentUser}
           />
         }) : " "}
       </div>

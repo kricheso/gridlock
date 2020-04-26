@@ -9,6 +9,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Firestore from './services/firestore.js';
 import firebaseConfig from './services/firestore.js'; // Must be present to initialize database.
+import Authentication from './services/authentication.js';
 
 const useStyles = makeStyles({
   root: {
@@ -20,42 +21,44 @@ const useStyles = makeStyles({
 });
 
 
-function SingleCard({ name, author, gameLink, numberOfLikes, creatorId, gridId }) {
+function SingleCard({ name, author, gameLink, numberOfLikes, currentUser, gridID }) {
   const classes = useStyles();
   const [likeText, setlikeText] = useState("Like");
 
 
-  async function likeGrid(userId, gridId) {
-    const like = await Firestore.add.like(userId, gridId);
+  async function likeGrid(currentUserId, gridID) {
+    const like = await Firestore.add.like(currentUser.id, gridID);
     if (like == null) {
       console.log("add like failed");
-       return;
+       return false;
     }
     else{
       console.log("like added");
       console.log(like);
+      return true;
     }
 
   }
-  async function unlikeGrid(userId, gridId) {
-    const success = await Firestore.remove.like(userId, gridId);
+  async function unlikeGrid(gridID) {
+    const success = await Firestore.remove.like(currentUser.id, gridID);
     if (success === false) {
       console.log("remove like failed");
       return false;
     }
     console.log("removed like");
     console.log(success);
+    return true
   }
 
 
-  const doLike = (likedtxt, creatorId, gridId) => {
+  const doLike = (likedtxt, gridID) => {
     if(likedtxt ==  "Like"){ //&&user hasn't liked from db
-      likeGrid(creatorId, gridId)
+      likeGrid(currentUser.id, gridID)
       setlikeText("Unlike")
     }
-    else{
+    else if (likedtxt == "Unlike"){
       setlikeText("Like")
-      unlikeGrid(creatorId, gridId )
+      unlikeGrid(gridID)
     }
   }
 
@@ -81,7 +84,7 @@ function SingleCard({ name, author, gameLink, numberOfLikes, creatorId, gridId }
         <Button size="small" color="primary">
           {numberOfLikes} Likes
         </Button>
-        <Button size="small" color="primary" onClick={() => doLike(likeText, creatorId, gridId)}>
+        <Button size="small" color="primary" onClick={() => doLike(likeText, gridID)}>
           {likeText}
         </Button>
       </CardActions>

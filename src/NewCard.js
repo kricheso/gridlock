@@ -18,9 +18,10 @@ function NewCard({ name, author, gameLink, numberOfLikes }) {
   const classes = useStyles();
 
   return (
-    <Card className={`${classes.root} newCard `} onClick={event => window.location.href='/play'}> 
+    <Card className={`${classes.root} newCard `} onClick={event => window.location.href='/play'}>
       <img className="plusSign" src={plusSign} />
     </Card>
   );
 }
+
 export default NewCard;
