@@ -59,12 +59,9 @@ function Play(props) {
   }
 
   return (
-    <>
+    <div className="play-component">
       <div className="trophy"></div>
-      <div className="game">
-        {
-          // Todo: Use flexbox to center board.
-        }
+      <div>
         {
           grid // Wait until grid is loaded to render it.
             ? <Board grid={grid} finishGame={finishGame} />
@@ -76,7 +73,7 @@ function Play(props) {
           {Math.floor(timeSec / 60)} : {("0"+timeSec%60).substr(-2)}
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

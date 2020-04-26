@@ -161,6 +161,13 @@ function FirestoreManualTests() {
     console.log(likers);
   }
 
+  async function getCurrentUser() {
+    const user = await Authentication.currentUser();
+    if (user === null) { console.log("error or the user is not logged in"); return; }
+    console.log("get current user success");
+    console.log(user);
+  }
+
   return (
     <div className="FirestoreManualTests">
       <header className="FirestoreManualTests-header">
@@ -231,6 +238,9 @@ function FirestoreManualTests() {
         <button onClick={ visitProfile }> 
           visitProfile
         </button>
+        <button onClick={ getCurrentUser }> 
+            Gets current user in Authentication
+          </button>
       </header>
     </div>
   );
