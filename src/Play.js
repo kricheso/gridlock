@@ -15,12 +15,15 @@ function Play(props) {
   const helpMessage = "Use the arrow keys to fill the grid!";
   const [playedFirstMove, setPlayedFirstMove] = useState(false);
 
-  const default_grid = [
-    ["1", "1", "1", "1"],
-    ["1", "1", "S", "1"],
-    ["0", "0", "1", "1"],
-    ["0", "0", "F", "0"],
-  ];
+  const default_grid ={
+    title: "Armada",
+    creatorDisplayName: "Jeremy",
+    data: [
+      ["1", "1", "1", "1"],
+      ["1", "1", "S", "1"],
+      ["0", "0", "1", "1"],
+      ["0", "0", "F", "0"]]
+  };
 
   function stopTimer() {
     clearInterval(intervalId);
@@ -39,6 +42,9 @@ function Play(props) {
   async function finishGame() {
     console.log("Finished game.");
     const score_sec = stopTimer();
+    setFinished(true);
+    setScore(score_sec);
+
     if (!userId || !gridId) { return; }
     const score_obj = await Firestore.add.score(userId, gridId, score_sec);
     if (!score_obj) {
@@ -47,16 +53,15 @@ function Play(props) {
     } else {
       console.log("Uploaded score.")
       console.log(score_obj);
-      setFinished(true);
-      setScore(score_sec);
     }
   }
 
   async function loadGrid() {
     if (gridId) {
+      console.log(gridId)
       const grid_obj = await Firestore.get.gridForUnregisteredUser(gridId);
       if (grid_obj) {
-        setGrid(grid_obj.data);
+        setGrid(grid_obj);
         return;
       }
     }
@@ -71,12 +76,17 @@ function Play(props) {
   document.addEventListener("keydown", checkFirstMove);
 
   return (<>
+    { grid ?
+      <div className="play-header">
+        <div className="grid-title">{grid.title}</div>
+        <div className="grid-creator">by {grid.creatorDisplayName}</div>
+      </div> : "" }
     <div className="play-component">
       <div className="trophy"></div>
       <div>
         {
           grid // Wait until grid is loaded to render it.
-            ? <Board grid={grid} finishGame={finishGame} />
+            ? <Board grid={grid.data} finishGame={finishGame} />
             : <></>
         }
       </div>
