@@ -27,6 +27,7 @@ ReactDOM.render(
     //<FirestoreManualTests />
     <Leaderboard hiscores={fakeHiscores}/>
     */}
+    <FirestoreManualTests />
     <Routing />
   </React.StrictMode>,
   document.getElementById("root")

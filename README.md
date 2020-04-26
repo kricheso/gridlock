@@ -122,6 +122,19 @@ Authentication.js is a custom authentication class that allows you to access the
 import Authentication from '<path>'; 
 ```
 
+### `Authentication.currentUser()`
+Returns the user object that someone is currently logged in as. Return null if a user is not logged in.
+* <b>Returns:</b> `User?` - A [user](#User) object.
+
+#### Example usage:
+```javascript
+async function myFunction() {
+  const user = await Authentication.currentUser();
+  if (user === null) { /* user is not logged in */ }
+  console.log(user);
+}
+```
+
 ### `Authentication.logIn()`
 Displays a sign in screen and returns the user object that someone logged in as. If you do not have an account, it will create one automatically. If the log in fails, it will return null.
 * <b>Returns:</b> `User?` - A [user](#User) object.

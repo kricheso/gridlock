@@ -9,6 +9,11 @@ import 'firebase/auth';
 
 class Authentication {
 
+    static async currentUser() {
+        if (firebase.auth().currentUser === null) { return null; }
+        return await Firestore.get.user(firebase.auth().currentUser.email);
+    }
+
     static async logIn() {
         try { 
             if (!Authentication.logout()) { return null; }
