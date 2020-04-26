@@ -32,6 +32,7 @@ class Consts {
     static id = "id";
     static invalidGridMessage = "That grid does not exist.";
     static invalidMatrixMessage = "That matrix is formatted incorrectly.";
+    static invalidSolutionMessage = "That solution is formatted incorrectly."
     static invalidTypeMessage = "Invalid parameter type.";
     static invalidUserMessage = "That user does not exist.";
     static isComplete = "isComplete";
@@ -48,6 +49,7 @@ class Consts {
     static photoUrl = "photoUrl";
     static scores = "scores";
     static solveTime = "solveTime";
+    static solution = "solution";
     static title = "title";
     static userDisplayName = "userDisplayName";
     static userId = "userId";
@@ -121,6 +123,11 @@ class Error {
         return failValue;
     }
 
+    static invalidSolution(failValue = null) {
+        console.log(Consts.invalidSolutionMessage);
+        return failValue;
+    }
+
     static invalidUser(failValue = null) {
         console.log(Consts.invalidUserMessage);
         return failValue;
@@ -181,14 +188,17 @@ class Firestore {
 
         }
 
-        static async grid(userId, title, matrix) {
+        static async grid(userId, title, matrix, solution) {
 
             // Synchronous Checks
             if (typeof(userId) !== Type.string) { return Error.invalidType(); }
             if (typeof(title) !== Type.string) { return Error.invalidType(); }
             if (typeof(matrix) !== Type.object) { return Error.invalidType(); }
+            if (typeof(solution) !== Type.object) { return Error.invalidType(); }
             const data = Firestore.HASH.convertToGridDataString(matrix);
             if (data === null) { return Error.invalidMatrix(); }
+            const sol = Firestore.HASH.convertToSolutionString(solution);
+            if (sol === null) { return Error.invalidSolution(); }
 
             try { 
 
@@ -211,6 +221,7 @@ class Firestore {
                     dict[Consts.numberOfIncompletes] = 0;
                     dict[Consts.numberOfLikes] = 0;
                     dict[Consts.numberOfCompletes] = 0;
+                    dict[Consts.solution] = sol;
                     dict[Consts.title] = title;
                     transaction.set(REF.GRIDS.doc(id), dict);
 
@@ -218,6 +229,7 @@ class Firestore {
                     dict[Consts.creatorDisplayName] = userDoc.data().displayName;
                     dict[Consts.data] = matrix;
                     dict[Consts.liked] = false;
+                    dict[Consts.solution] = solution;
                     return dict;
 
                 });
@@ -458,6 +470,7 @@ class Firestore {
                 if (user === null) { return Error.firebaseFaliure() }
                 dict[Consts.creatorDisplayName] = user.displayName;
                 dict[Consts.data] = Firestore.HASH.convertToGridDataMatrix(dict.data);
+                dict[Consts.solution] = Firestore.HASH.convertToSolutionMatrix(dict.solution);
                 dict[Consts.liked] = false;
                 return dict;
             }
@@ -476,6 +489,7 @@ class Firestore {
                     const dict = doc.data();
                     dict[Consts.creatorDisplayName] = user.displayName;
                     dict[Consts.data] = Firestore.HASH.convertToGridDataMatrix(dict.data);
+                    dict[Consts.solution] = Firestore.HASH.convertToSolutionMatrix(dict.solution);
                     if (requestorId === null) { 
                         dict[Consts.liked] = false; 
                     } else {
@@ -547,6 +561,7 @@ class Firestore {
                     if (user === null) { return Error.firebaseFaliure(); }
                     dict[Consts.creatorDisplayName] = user.displayName; 
                     dict[Consts.data] = Firestore.HASH.convertToGridDataMatrix(dict.data);
+                    dict[Consts.solution] = Firestore.HASH.convertToSolutionMatrix(dict.solution);
                     dict[Consts.liked] = false;
                     grids.push(dict);
                 }
@@ -636,13 +651,30 @@ class Firestore {
             return userId + "_likes_"  + gridId;
         }
 
+        static convertToSolutionMatrix(string) {
+            if (typeof(string) !== Type.string) { return Error.invalidType(); }
+            let matrix = [];
+            const lines = string.split("-");
+            for (const line of lines) { matrix.push(line.split("").map(char => parseInt(char))); }
+            return matrix;
+        }
+
+        static convertToSolutionString(solution) {
+            let lines = [];
+            for (const array of solution) { 
+                if (array.length !== 2) { return null; }
+                lines.push(array.join("")); 
+            }
+            return lines.join("-");
+        }
+
         static createUUID() {
             return Consts.uuidFormat.replace(/[xy]/g, function(c) {
                 var r = Math.random() * 16 | 0, v = c === Consts.uuidMark ? r : ((r & 0x3) | 0x8);
                 return v.toString(16);
             });
         }
-    
+
         static isValidMatrix(matrix) {
             const validTiles = new Set(["S", "F", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]);
             if (typeof(matrix) !== Type.object) { return false; }

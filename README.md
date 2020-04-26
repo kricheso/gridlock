@@ -192,17 +192,18 @@ async function myFunction() {
 }
 ```
 
-#### <a name="addGrid" />`Firestore.add.grid(userId, title, matrix)`
+#### <a name="addGrid" />`Firestore.add.grid(userId, title, matrix, solution)`
 Simulates a user creating a grid.
 * <b>userId</b> `String` - The user id of the person who created the grid.
 * <b>title</b> `String` - The title of the grid.
 * <b>matrix</b> `Character[][]` - The shape of the grid.
+* <b>solution</b> `Int[][]` - Solution to grid. Each element represents a coordinate in an array of length 2. 
 * <b>Returns:</b> `Grid?` - The [grid](#Grid) object that was created.
 
 <b>Example usage:</b>
 ```javascript
 async function myFunction() {
-  const createdGrid = await Firestore.add.grid("raymond@google.com", "My Title", [["S", "0"], ["1", "F"]]);
+  const createdGrid = await Firestore.add.grid("raymond@google.com", "My Title", [["S", "0"], ["1", "F"]], [[1,0],[1,1]]);
   if (createdGrid === null) { /* error */ }
   console.log(createdGrid);
 }

@@ -28,10 +28,10 @@ function FirestoreManualTests() {
 
   async function addGrid() {
     const matrix = [
-      ["S", "1", "0"],
-      ["0", "1", "F"]
+      ["S", "0"],
+      ["1", "F"]
     ];
-    const grid = await Firestore.add.grid(userId, "title3", matrix);
+    const grid = await Firestore.add.grid(userId, "title5", matrix, [[1,0], [1,1]]);
     if (grid === null) { console.log("add grid failed"); return; }
     console.log("added grid");
     console.log(grid);
@@ -46,28 +46,28 @@ function FirestoreManualTests() {
   }
 
   async function addLike() {
-    const like = await Firestore.add.like(userId, "title1_by_kousei.richeson@gmail.com");
+    const like = await Firestore.add.like(userId, "title5_by_kricheso@google.com");
     if (like == null) { console.log("add like failed"); return; }
     console.log("added like");
     console.log(like);
   }
 
   async function removeLike() {
-    const success = await Firestore.remove.like(userId, "title1_by_kousei.richeson@gmail.com");
+    const success = await Firestore.remove.like(userId, "title1_by_kricheso@google.com");
     if (success === false) { console.log("remove like failed"); return; }
     console.log("removed like");
     console.log(success);
   }
 
   async function addScore() {
-    const score = await Firestore.add.score(userId, "title1_by_kousei.richeson@gmail.com", 50503);
+    const score = await Firestore.add.score(userId, "title2_by_kricheso@google.com", 50503);
     if (score == null) { console.log("add score failed"); return; }
     console.log("added score");
     console.log(score);
   }
 
   async function addIncompleteScore() {
-    const score = await Firestore.add.incompleteScore(userId, "title1_by_kousei.richeson@gmail.com");
+    const score = await Firestore.add.incompleteScore(userId, "title2_by_kricheso@google.com");
     if (score == null) { console.log("add incomplete score failed"); return; }
     console.log("added incomplete score");
     console.log(score);
@@ -99,7 +99,7 @@ function FirestoreManualTests() {
   }
 
   async function getTopFiveScores() {
-    const scores = await Firestore.get.topFiveScoresForGrid("title1_by_kousei.richeson@gmail.com");
+    const scores = await Firestore.get.topFiveScoresForGrid("title1_by_kricheso@google.com");
     if (scores === null) { console.log("get top 5 scores failed"); return; }
     console.log("got top 5 scores");
     console.log(scores);
@@ -141,21 +141,21 @@ function FirestoreManualTests() {
   }
 
   async function gridForUnregisteredUser() {
-    const grid = await Firestore.get.gridForUnregisteredUser("title1_by_kousei.richeson@gmail.com");
+    const grid = await Firestore.get.gridForUnregisteredUser("title1_by_kricheso@google.com");
     if (grid === null) { console.log("error"); return; }
     console.log("get grid success");
     console.log(grid);
   }
 
   async function gridForRegisteredUser() {
-    const grid = await Firestore.get.gridForUser(userId, "title1_by_kousei.richeson@gmail.com");
+    const grid = await Firestore.get.gridForUser(userId, "title1_by_kricheso@google.com");
     if (grid === null) { console.log("error"); return; }
     console.log("get grid success");
     console.log(grid);
   }
 
   async function getAllLikers() {
-    const likers = await Firestore.get.usersWhoLikedGrid("title1_by_kousei.richeson@gmail.com");
+    const likers = await Firestore.get.usersWhoLikedGrid("title1_by_kricheso@google.com");
     if (likers === null) { console.log("error"); return; }
     console.log("get all grid likers success");
     console.log(likers);
