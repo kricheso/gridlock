@@ -3,7 +3,6 @@ import SingleCard from './card.js';
 import NewCard from './NewCard.js';
 import './gameCards.css';
 import Firestore from './services/firestore.js';
-import firebaseConfig from './services/firestore.js';   // Must be present to initialize database.
 import Authentication from './services/authentication.js';
 
 
