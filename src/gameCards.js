@@ -39,6 +39,8 @@ function GameCards() {
           author = {grid.creatorDisplayName}
           gameLink = {grid.creatorDisplayName}
           numberOfLikes = {grid.numberOfLikes}
+          creatorId = {grid.creatorId}
+          gridId = {grid.id}
           />
         }) : " "}
       </div>
