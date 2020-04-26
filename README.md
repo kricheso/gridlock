@@ -95,6 +95,7 @@ Gridlock has three main objects: [Grid](#Grid), [Score](#Score), and [User](#Use
 * `numberOfCompletes` - A number that represents the number of attempts that were successful.
 * `numberOfIncompletes` - A number that represents the number of attempts that were unsuccessful.
 * `numberOfLikes` - A number that is the number of likes this grid has.
+* `solution` - An integer matrix that represents multiple coordinates of the solution. Each element in the array is an array of length 2 that represents a coordinate.
 * `title` - A string that is the title of this grid.
 
 ### <a name="Score" />Score
