@@ -10,14 +10,39 @@ import Typography from "@material-ui/core/Typography";
 import Firestore from './services/firestore.js';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-
+import Star from './star.js';
 
 const useStyles = makeStyles({
   root: {
     maxWidth: 1000,
+
   },
   media: {
     height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'pink',
+  },
+  Playbutton: {
+    width: 170,
+    height: 30,
+    backgroundColor: 'pink',
+    alignItems: 'center',
+    margin: '0px',
+  },
+  Likersbutton: {
+    width: 170,
+    height: 30,
+    backgroundColor: 'pink',
+    alignItems: 'center',
+    margin: '0px',
+  },
+  Likebutton: {
+    width: 170,
+    height: 30,
+    backgroundColor: 'pink',
+    alignItems: 'right',
+    margin: '0px',
   },
 });
 
@@ -27,6 +52,7 @@ function SingleCard({ name, author, gameLink, numberOfLikes, currentUser, gridID
   const [likeText, setlikeText] = useState("Like");
   const [likers, setLikers] = useState(null);
   const [hasLiked, setHasLiked] = useState(false);
+  const [starState, setStarState] = useState(null);
 
 
   async function likeGrid(currentUserId, gridID) {
@@ -76,13 +102,14 @@ function SingleCard({ name, author, gameLink, numberOfLikes, currentUser, gridID
   function determineLikedText(){
     if(hasLiked == false){
       setlikeText("Like")
-
+      setStarState(false)
     }
     if(likers != null){
       for (let likedUser in likers ){
         if(currentUser.id = likers[likedUser].id){
             setlikeText("Liked")
             setHasLiked(true);
+            setStarState(true)
              break;
           }
       }
@@ -124,8 +151,25 @@ function SingleCard({ name, author, gameLink, numberOfLikes, currentUser, gridID
   return (
     <Card className={classes.root}>
         <CardMedia
-          className={classes.media}
-        />
+          className={classes.media}>
+          <Button  className={classes.Likersbutton} size="small" color="primary" aria-controls="simple-menu"  aria-haspopup="true" onClick={handleClick} >
+            {numberOfLikes} Likes {starState?
+          <Star likeText = {likeText == "Liked" ? likeText : ""}/> :
+          <Star likeText = {likeText == "Liked" ? likeText :  ""}/>
+          //need to get this to be true when Liked text eventually loads and because true
+        }
+          </Button>
+          <Menu
+            id="simple-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+            >
+            {likers ? (likers).map(function(liker, key) {
+               return < MenuItem > {liker.displayName} </MenuItem>}) : ""}
+          </Menu>
+          </CardMedia>
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
             {name}
@@ -137,23 +181,10 @@ function SingleCard({ name, author, gameLink, numberOfLikes, currentUser, gridID
           </Typography>
         </CardContent>
       <CardActions>
-        <Button size="small" color="primary"  href={'/play/' + gridID}  >
+        <Button className={classes.Playbutton} size="small" color="primary"  href={'/play/' + gridID}  >
           Play
         </Button>
-        <Button size="small" color="primary" aria-controls="simple-menu"  aria-haspopup="true" onClick={handleClick} >
-          {numberOfLikes} Likes
-        </Button>
-        <Menu
-          id="simple-menu"
-          anchorEl={anchorEl}
-          keepMounted
-          open={Boolean(anchorEl)}
-          onClose={handleClose}
-          >
-          {likers ? (likers).map(function(liker, key) {
-             return < MenuItem > {liker.displayName} </MenuItem>}) : ""}
-        </Menu>
-        <Button size="small" color="primary" onClick={() => doLike(likeText, gridID)}>
+        <Button className={classes.Likebutton} size="small" color="primary" onClick={() => doLike(likeText, gridID)}>
           {likeText}
         </Button>
       </CardActions>

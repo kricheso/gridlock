@@ -64,7 +64,7 @@ export default function Profile(props) {
     if(profileId == null && currentUser != null){
       setProfileUser(currentUser);
     }
-  
+
     else if(profileId != null){
       const user = await Firestore.get.user(profileId);
       if (user === null) { console.log("error or the user is not logged in"); return; }
@@ -73,7 +73,7 @@ export default function Profile(props) {
   }
 
   return (
-    <div className="board">
+    <div className="profile">
       <div className="profileCard">
         <img className="profileImage" src={profileUser? profileUser.photoUrl: ""} alt="Girl in a jacket"/>
         <div className="profileText">

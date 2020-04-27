@@ -8,6 +8,9 @@
 	position: relative;
 }
 
+.profile{
+	background-color: #7FBEEB;
+}
 .profileImage{
 	position: absolute;
 	height: 195px;
