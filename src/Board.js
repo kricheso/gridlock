@@ -89,6 +89,12 @@ function Board(props) {
                state.in_path ? "1" : "0"));
       props.setGrid(grid);
     }
+    if (props.setSolution) {
+      // Reinidex moves to have nonegative indices.
+      const reindexed_moves = moves.map(
+        mv=>mv.match(/-?\d+/g).map((str,i)=>(+str)-[min_x, min_y][i]));
+      props.setSolution(reindexed_moves);
+    }
   }
 
   function exec_mv(dx, dy) {

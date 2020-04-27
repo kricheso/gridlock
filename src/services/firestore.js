@@ -555,9 +555,12 @@ class Firestore {
             try {
                 const querySnapshot = await REF.GRIDS.orderBy(Consts.numberOfLikes, Consts.descending).limit(Consts.maxTrendingGridsOnPage).get();
                 let grids = [];
-                for (const doc of querySnapshot.docs) {
+                let promises = [];
+                querySnapshot.docs.map(doc => promises.push(Firestore.get.user(doc.data().creatorId)))
+                let results = await Promise.all(promises);
+                for (const [index, doc] of querySnapshot.docs.entries()) {
                     const dict = doc.data();
-                    const user = await Firestore.get.user(dict.creatorId);
+                    const user = results[index];
                     if (user === null) { return Error.firebaseFaliure(); }
                     dict[Consts.creatorDisplayName] = user.displayName; 
                     dict[Consts.data] = Firestore.HASH.convertToGridDataMatrix(dict.data);
@@ -575,8 +578,11 @@ class Firestore {
             if (await Firestore.get.user(id) === null) { return Error.invalidUser(); }
             const grids = await Firestore.get.trendingGridsForUnregisteredUser();
             if (grids === null) { return null; }
-            for (const grid of grids) {
-                if (await Firestore.get.like(id, grid.id) !== null) { grid[Consts.liked] = true; }
+            let promises = [];
+            grids.map(grid => promises.push(Firestore.get.like(id, grid.id)));
+            let results = await Promise.all(promises);
+            for (const [index, grid] of grids.entries()) {
+                if (results[index] !== null) { grid[Consts.liked] = true; }
             }
             return grids;
         }

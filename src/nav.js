@@ -116,6 +116,7 @@ export default function PersistentDrawerLeft() {
           spacing={24}
           >
             <Grid item>
+              <div style={{display:'flex', alignItems:'center'}}>
               <IconButton
               color="inherit"
               aria-label="open drawer"
@@ -125,14 +126,13 @@ export default function PersistentDrawerLeft() {
               >
                 <MenuIcon />
               </IconButton>
-            </Grid>
-            <Grid item>
               <Typography variant="h6" noWrap>
                 Gridlock
               </Typography>
+              </div>
             </Grid>
             <Grid item>
-              <div>
+              <div style={{display:'flex', alignItems:'center', height: '100%'}}>
                 {user == null ? (
                   <div>
                     <Button color="inherit" onClick={() => {loginPress()}}>Login</Button>
