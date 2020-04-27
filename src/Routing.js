@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
     BrowserRouter as Router,
     Switch,
@@ -12,6 +12,9 @@ import Play from './Play.js'
 import Profile from './Profile.js'
 import Create from './Create.js'
 import user from './nav.js'
+
+
+
 
 function Explore() {
     return(
@@ -59,6 +62,9 @@ function Explore() {
   }
 
   export default function Routing(){
+
+
+
     return (
         <Router>
             {user == null ?
@@ -80,6 +86,9 @@ function Explore() {
                 <Explore />
               </Route>
               <Route path="/profile/:profileid">
+                <ProfileById />
+              </Route>
+              <Route path="/profile/:userid">
                 <ProfileById />
               </Route>
               <Route path="/profile">

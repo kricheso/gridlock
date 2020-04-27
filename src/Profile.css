@@ -7,18 +7,29 @@
 	flex-wrap: wrap;
 	position: relative;
 }
+
 .profileImage{
 	position: absolute;
 	height: 195px;
 	width: 195px;
 }
+
 .profileText{
 	width:calc(100% - 195px);
 	margin-left:195px;
 }
+
 .star{
 	display: inline-block;
 	background-color: red;
 	height:20px;
 	width:20px;
+}
+
+.Profile-body{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	overflow-y:scroll;
+	width:100vw;
 }

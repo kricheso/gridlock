@@ -40,7 +40,6 @@ function GameCards() {
 
      return (
         <div className="Explore-body">
-       {grid_list? <NewCard /> : " "}
        {grid_list ? (grid_list).map(function(grid, key) {
           return < SingleCard
           name = {grid.title}
@@ -48,6 +47,7 @@ function GameCards() {
           gameLink = {grid.creatorDisplayName}
           numberOfLikes = {grid.numberOfLikes}
           gridID = {grid.id}
+          creatorID = {grid.creatorId}
           currentUser = {currentUser}
           />
         }) : " "}
