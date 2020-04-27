@@ -32,13 +32,11 @@ function ProfileCards(props) {
 
   async function loadCurrentUsersGrids() {
     if(profileId == null && currentUser != null){
-      console.log("cardaaaaa", currentUser.id)
       const grids = await Firestore.get.gridsCreatedByUser(currentUser.id, currentUser.id);
       if (grids === null) { console.log("get user grids failed"); return; }
       setUserGridList(grids)
     }
     else if(profileId != null){
-      console.log("cardssss", profileId)
       const grids = await Firestore.get.gridsCreatedByUser(profileId, profileId);
       setUserGridList(grids)
     }
@@ -66,15 +64,3 @@ function ProfileCards(props) {
 }
 
 export default ProfileCards;
-
-
-/*      {grid_list.map((grid, i) => {
-        return (
-          <SingleCard
-            name={grid.title}
-            author={username}
-            gameLink={profilepicture}
-            numberOfLikes={grid.numberOfLikes}
-          />
-        );
-      })}*/

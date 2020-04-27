@@ -39,12 +39,6 @@ export default function Profile(props) {
     alert("click")
   }
 
-  useEffect(() => {
-    if (profileUser != null){
-      displayUserDetails();
-    }
-  }, [profileUser]);
-
 
   useEffect(() => {
     getCurrentUser();
@@ -54,9 +48,6 @@ export default function Profile(props) {
       getProfileUser();
   }, [currentUser]);
 
-
-  function displayUserDetails(){
-  }
 
   function displayNewUserDetails(){
   }
@@ -73,6 +64,7 @@ export default function Profile(props) {
     if(profileId == null && currentUser != null){
       setProfileUser(currentUser);
     }
+  
     else if(profileId != null){
       const user = await Firestore.get.user(profileId);
       if (user === null) { console.log("error or the user is not logged in"); return; }
