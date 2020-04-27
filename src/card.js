@@ -8,7 +8,6 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Firestore from './services/firestore.js';
-import Authentication from './services/authentication.js';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
@@ -23,7 +22,7 @@ const useStyles = makeStyles({
 });
 
 
-function SingleCard({ name, author, gameLink, numberOfLikes, currentUser, gridID }) {
+function SingleCard({ name, author, gameLink, numberOfLikes, currentUser, gridID, creatorID }) {
   const classes = useStyles();
   const [likeText, setlikeText] = useState("Like");
   const [likers, setLikers] = useState(null);
@@ -75,7 +74,6 @@ function SingleCard({ name, author, gameLink, numberOfLikes, currentUser, gridID
 
 
   function determineLikedText(){
-    console.log("sddcfdf")
     if(hasLiked == false){
       setlikeText("Like")
 
@@ -134,7 +132,7 @@ function SingleCard({ name, author, gameLink, numberOfLikes, currentUser, gridID
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
           <CardActionArea>
-            By <Button href="/profile">{author}</Button>
+            By <Button href={'/profile/' + creatorID} >{author}</Button>
             </CardActionArea>
           </Typography>
         </CardContent>

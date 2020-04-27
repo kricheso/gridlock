@@ -13,6 +13,9 @@ import Profile from './Profile.js'
 import Create from './Create.js'
 import user from './nav.js'
 
+
+
+
 function Explore() {
     return(
       <div>
@@ -59,6 +62,9 @@ function Explore() {
   }
 
   export default function Routing(){
+
+
+
     return (
         <Router>
             {user == null ?

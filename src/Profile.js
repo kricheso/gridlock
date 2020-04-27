@@ -10,7 +10,9 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import plusSign from "./plusSign.png"
-
+import ProfileCards from './profileCards.js';
+import GameCards from './gameCards.js';
+import Authentication from './services/authentication.js';
 import SingleCard from "./card.js";
 import logo from "./logo.svg";
 
@@ -26,58 +28,66 @@ const useStyles = makeStyles({
 export default function Profile(props) {
   const classes = useStyles();
   const profileId = props ? props.profileId : '';
+  const currentUId = props ? props.currentId : '';
 
   const [username, setUsername] = useState("");
   const [profilepicture, setProfilpic] = useState("");
-
-  const [id, setid] = useState("kousei.richeson@gmail.com");
-  const [requestorid, setrequestorid] = useState("kousei.richeson@gmail.com");
-
-  const [grid_list, setgridlist] = useState([]);
+  const [profileUser, setProfileUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
 
   const click = () => {
     alert("click")
   }
 
-  useEffect(get_user, []);
-  useEffect(load_grids, []);
 
-  async function load_grids() {
-    const grids = await Firestore.get.gridsCreatedByUser(id, requestorid);
-    // If grid is null, set it to an empty grid instead.
-    setgridlist(grids || []);
+  useEffect(() => {
+    getCurrentUser();
+  }, []);
+
+  useEffect(() => {
+      getProfileUser();
+  }, [currentUser]);
+
+
+  function displayNewUserDetails(){
   }
 
-  async function get_user() {
-    const user = await Firestore.get.user(id);
-    // If grid is null, set it to an empty grid instead.
-    setUsername(user.displayName || []);
-    setProfilpic(user.photoUrl || []);
 
-    console.log(user.photoUrl);
+  async function getCurrentUser() {
+    const randomGrid = await Firestore.get.trendingGridsForUnregisteredUser();
+    const user = await Authentication.currentUser();
+    if (user === null) { console.log("error or the user is not logged in"); return; }
+    setCurrentUser(user);
+  }
+
+  async function getProfileUser() {
+    if(profileId == null && currentUser != null){
+      setProfileUser(currentUser);
+    }
+  
+    else if(profileId != null){
+      const user = await Firestore.get.user(profileId);
+      if (user === null) { console.log("error or the user is not logged in"); return; }
+      setProfileUser(user);
+    }
   }
 
   return (
     <div className="board">
       <div className="profileCard">
-        <img className="profileImage" src={profilepicture} alt="Girl in a jacket"/>
+        <img className="profileImage" src={profileUser? profileUser.photoUrl: ""} alt="Girl in a jacket"/>
         <div className="profileText">
-          <h2>My Name</h2>
-          <p><span className="star"></span> 100</p>
+          <h2> {profileUser? profileUser.displayName: " "} </h2>
+          <p><span className="star"></span>
+          {profileUser? profileUser.numberOfFollowing: " "}
+          {profileUser? profileUser.numberOfFollowing: " "}
+          {profileUser? profileUser.numberOfFollowers: " "}
+          {profileUser? profileUser.numberOfTotalLikes: " "}
+          </p>
           <button onClick={()=>click()}>Add Course</button>
         </div>
       </div>
-
-      {grid_list.map((grid, i) => {
-        return (
-          <SingleCard
-            name={grid.title}
-            author={username}
-            gameLink={profilepicture}
-            numberOfLikes={grid.numberOfLikes}
-          />
-        );
-      })}
+      <ProfileCards profileId={profileId? profileId : profileUser ? profileUser.id : null}/>
     </div>
   );
 }

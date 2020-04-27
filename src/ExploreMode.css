@@ -44,7 +44,13 @@ body{
   width: 300px;
   margin: auto;
 }
-
+.Explore-body{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	overflow-y:scroll;
+	width:100vw;
+}
 .card {
   text-align: center;
   line-height: 30pt;
