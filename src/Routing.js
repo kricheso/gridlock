@@ -88,9 +88,6 @@ function Explore() {
               <Route path="/profile/:profileid">
                 <ProfileById />
               </Route>
-              <Route path="/profile/:userid">
-                <ProfileById />
-              </Route>
               <Route path="/profile">
                 <Profile />
               </Route>
