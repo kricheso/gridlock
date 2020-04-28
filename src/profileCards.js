@@ -41,8 +41,6 @@ function ProfileCards(props) {
     }
   }
 
-  //{userGridList? <NewCard /> : " "}
-
 
      return (
         <div className="Profile-body">
