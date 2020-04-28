@@ -46,11 +46,12 @@ const useStyles = makeStyles({
 });
 
 
-function SingleCard({ name, author, gameLink, numberOfLikes, currentUser, gridID, creatorID }) {
+function SingleCard({ name, author, numberOfLikes, currentUser, gridID, creatorID, numberOfCompletes, numberOfAttempts, numberOfIncompletes }) {
   const classes = useStyles();
-  // Whether the star should be gold
+
   const [userHasLiked, setUserHasLiked] = useState(false);
   const [listOfPeopleWhoLiked, setListOfPeopleWhoLiked] = useState(null);
+  const [numberOfLikesText, setNumberOfLikesText] = useState(numberOfLikes);
 
 
   async function likeGrid(currentUserId, gridID) {
@@ -82,7 +83,6 @@ function SingleCard({ name, author, gameLink, numberOfLikes, currentUser, gridID
   async function getListOfPeopleWhoLiked(gridID) {
     const listOfPeopleWhoLiked = await Firestore.get.usersWhoLikedGrid(gridID);
     if (listOfPeopleWhoLiked === null) { console.log("error"); return; }
-    console.log("get all grid listOfPeopleWhoLiked success");
     console.log(listOfPeopleWhoLiked);
     setListOfPeopleWhoLiked(listOfPeopleWhoLiked);
   }
@@ -91,11 +91,21 @@ function SingleCard({ name, author, gameLink, numberOfLikes, currentUser, gridID
   useEffect(() => {
     getListOfPeopleWhoLiked(gridID);
   }, []);
+  useEffect(() => {
+    displayDifficulty();
+  }, []);
 
   useEffect(() => {
     checkIfCurrentUserHasLiked();
   }, [listOfPeopleWhoLiked]);
 
+  function displayDifficulty(){
+    if(numberOfAttempts ==0){
+      var difficulty = 0;
+      return;
+    }
+    var difficulty = numberOfIncompletes/numberOfAttempts;
+  }
 
   function checkIfCurrentUserHasLiked(){
     if(listOfPeopleWhoLiked != null){
@@ -112,10 +122,13 @@ function SingleCard({ name, author, gameLink, numberOfLikes, currentUser, gridID
     if(userHasLiked ==  false){
       likeGrid(currentUser.id, gridID)
       setUserHasLiked(true)
+      setNumberOfLikesText(numberOfLikesText + 1);
     }
     else if(userHasLiked ==  true){
       unlikeGrid(gridID)
       setUserHasLiked(false)
+      setNumberOfLikesText(numberOfLikesText - 1);
+
     }
   }
 
@@ -137,13 +150,9 @@ function SingleCard({ name, author, gameLink, numberOfLikes, currentUser, gridID
         <CardMedia
           className={classes.media}>
           <Button className={classes.Likebutton} size="small" color="primary" onClick={() => doLike(userHasLiked, gridID)}>
-
           <div className = "starImage">
-
              <img src = { userHasLiked ? "/star.png" : "/starGrey.png"}/>
-
           </div>
-
           </Button>
           <Menu
             id="simple-menu"
@@ -171,7 +180,7 @@ function SingleCard({ name, author, gameLink, numberOfLikes, currentUser, gridID
           Play
         </Button>
         <Button  className={classes.Likersbutton} size="small" color="primary" aria-controls="simple-menu"  aria-haspopup="true" onClick={handleClick} >
-          {numberOfLikes} {numberOfLikes == 1 ? "Like": "Likes"}
+          {numberOfLikesText} {numberOfLikes == 1 ? "Like": "Likes"}
         </Button>
       </CardActions>
     </Card>

@@ -36,9 +36,11 @@ function GameCards() {
   async function load_user_grids() {
    const grids = await Firestore.get.trendingGridsForUser();
     // If grid is null, set it to an empty grid instead.
+    if(grids != null){
+      console.log(grids);
+    }
     setgridlist(user_grid_list);
   }
-
 
      return (
         <div className="Explore-body">
@@ -47,10 +49,12 @@ function GameCards() {
           return < SingleCard
           name = {grid.title}
           author = {grid.creatorDisplayName}
-          gameLink = {grid.creatorDisplayName}
           numberOfLikes = {grid.numberOfLikes}
           gridID = {grid.id}
           creatorID = {grid.creatorId}
+          numberOfCompletes = {grid.numberOfCompletes}
+          numberOfAttempts = {grid.numberOfAttempts}
+          numberOfIncompletes = {grid.numberOfIncompletes}
           currentUser = {currentUser}
           />
         }) : " "}
