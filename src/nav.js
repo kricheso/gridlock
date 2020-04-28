@@ -79,6 +79,19 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'darkorange',
     color: 'white',
   },
+  profilePhoto: {
+    width: '27px',
+    height: '27px',
+    borderRadius: '50%',
+    border: '2px solid #fff',
+  },
+  profileLink: {
+    color: 'inherit',
+    textDecoration: 'inherit',
+    display: 'flex',
+    alignItems: 'center',
+
+  },
 }));
 
 // Function
@@ -152,11 +165,12 @@ export default function PersistentDrawerLeft() {
                     <Button color="inherit" onClick={() => {loginPress()}}>Login</Button>
                   </div>) :
                   <div>
-                    {user != null &&
-                      // <img src={user.photoUrl} alt={user.photoUrl.alt/>
-                      <p style={{ color: 'black' }}>
+                    {user != null &&<a className={classes.profileLink} href="/Profile">
+                      <img className={classes.profilePhoto} src={user.photoUrl} alt={user.photoUrl.alt} />
+                      &nbsp; &nbsp;
+                      <p>
                         {user.displayName}
-                      </p>
+                      </p></a>
                     }
                   </div>
                 }
@@ -183,7 +197,7 @@ export default function PersistentDrawerLeft() {
         </div>
         <Divider />
         <List>
-          {['Home', 'Profile', 'Explore', 'Play', 'Create'].map((text, index) => (
+          {['Home', 'Play', 'Create', 'Explore'].map((text, index) => (
             <ListItem key={text}>
               <Button href={"/"+text.toLowerCase()}>
                 <ListItemText primary={text} />
