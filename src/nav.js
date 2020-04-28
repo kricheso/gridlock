@@ -75,6 +75,10 @@ const useStyles = makeStyles((theme) => ({
     }),
     marginLeft: 0,
   },
+  toolbar: {
+    backgroundColor: 'darkorange',
+    color: 'white',
+  },
 }));
 
 // Function
@@ -109,7 +113,7 @@ export default function PersistentDrawerLeft() {
           [classes.appBarShift]: open,
         })}
       >
-        <Toolbar>
+        <Toolbar className={classes.toolbar}>
           <Grid
           justify="space-between" // Add it here :)
           container
