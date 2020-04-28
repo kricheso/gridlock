@@ -15,6 +15,7 @@ import GameCards from './gameCards.js';
 import Authentication from './services/authentication.js';
 import SingleCard from "./card.js";
 import logo from "./logo.svg";
+import NewCard from './NewCard.js';
 
 const useStyles = makeStyles({
   root: {
@@ -75,16 +76,16 @@ export default function Profile(props) {
   return (
     <div className="profile">
       <div className="profileCard">
-        <img className="profileImage" src={profileUser? profileUser.photoUrl: ""} alt="Girl in a jacket"/>
+        <img className="profileImage" src={profileUser? profileUser.photoUrl: ""} alt="Profile Pic"/>
         <div className="profileText">
           <h2> {profileUser? profileUser.displayName: " "} </h2>
-          <p><span className="star"></span>
-          {profileUser? profileUser.numberOfFollowing: " "}
-          {profileUser? profileUser.numberOfFollowing: " "}
-          {profileUser? profileUser.numberOfFollowers: " "}
-          {profileUser? profileUser.numberOfTotalLikes: " "}
+          <p>
+          <span>
+          <span className="star"></span>   <b>{profileUser ?  profileUser.numberOfTotalLikes: " "}</b> </span>
+          <span> <b> {profileUser? profileUser.numberOfFollowers: " "}</b> Followers </span>
+          <span>  <b> {profileUser? profileUser.numberOfFollowing: " "} </b>  Following</span>
           </p>
-          <button onClick={()=>click()}>Add Course</button>
+           <NewCard />
         </div>
       </div>
       <ProfileCards profileId={profileId? profileId : profileUser ? profileUser.id : null}/>

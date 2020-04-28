@@ -3,8 +3,13 @@
 	justify-content: center;
 	align-items: center;
 }
-.plusSign{
 
+.plusSign{
 	height:100px;
 	width:100px;
+}
+
+.profileCard .profileText .plusSign{
+	height:25px;
+	width:25px;
 }

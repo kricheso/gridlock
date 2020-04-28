@@ -10,12 +10,11 @@ import Typography from "@material-ui/core/Typography";
 import Firestore from './services/firestore.js';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import Star from './star.js';
+import "./star.css"
 
 const useStyles = makeStyles({
   root: {
     maxWidth: 1000,
-
   },
   media: {
     height: 40,
@@ -49,10 +48,9 @@ const useStyles = makeStyles({
 
 function SingleCard({ name, author, gameLink, numberOfLikes, currentUser, gridID, creatorID }) {
   const classes = useStyles();
-  const [likeText, setlikeText] = useState("Like");
-  const [likers, setLikers] = useState(null);
-  const [hasLiked, setHasLiked] = useState(false);
-  const [starState, setStarState] = useState(null);
+  // Whether the star should be gold
+  const [userHasLiked, setUserHasLiked] = useState(false);
+  const [listOfPeopleWhoLiked, setListOfPeopleWhoLiked] = useState(null);
 
 
   async function likeGrid(currentUserId, gridID) {
@@ -81,64 +79,59 @@ function SingleCard({ name, author, gameLink, numberOfLikes, currentUser, gridID
   }
 
 
-  async function getAllLikers(gridID) {
-    const likers = await Firestore.get.usersWhoLikedGrid(gridID);
-    if (likers === null) { console.log("error"); return; }
-    console.log("get all grid likers success");
-    console.log(likers);
-    setLikers(likers);
+  async function getListOfPeopleWhoLiked(gridID) {
+    const listOfPeopleWhoLiked = await Firestore.get.usersWhoLikedGrid(gridID);
+    if (listOfPeopleWhoLiked === null) { console.log("error"); return; }
+    console.log("get all grid listOfPeopleWhoLiked success");
+    console.log(listOfPeopleWhoLiked);
+    setListOfPeopleWhoLiked(listOfPeopleWhoLiked);
   }
 
 
   useEffect(() => {
-    getAllLikers(gridID);
+    getListOfPeopleWhoLiked(gridID);
   }, []);
 
   useEffect(() => {
-    determineLikedText();
-  }, [likers]);
+    checkIfCurrentUserHasLiked();
+  }, [listOfPeopleWhoLiked]);
 
 
-  function determineLikedText(){
-    if(hasLiked == false){
-      setlikeText("Like")
-      setStarState(false)
-    }
-    if(likers != null){
-      for (let likedUser in likers ){
-        if(currentUser.id = likers[likedUser].id){
-            setlikeText("Liked")
-            setHasLiked(true);
-            setStarState(true)
-             break;
+  function checkIfCurrentUserHasLiked(){
+    // if(userHasLiked == false){
+    //   setStarColor("Like")
+    // }
+    if(listOfPeopleWhoLiked != null){
+      for (let personWhoLiked in listOfPeopleWhoLiked ){
+        if(currentUser.id == listOfPeopleWhoLiked[personWhoLiked].id){
+            setUserHasLiked(true)
+            break;
           }
       }
     }
   }
 
-  const doLike = (likedtxt, gridID) => {
-    if(likedtxt ==  "Like"){ //&&user hasn't liked from db
+  const doLike = (userHasLiked, gridID) => {
+    if(userHasLiked ==  false){ //&&user hasn't liked from db
       likeGrid(currentUser.id, gridID)
-      setHasLiked(true);
-      setlikeText("Liked")
+      setUserHasLiked(true)
     }
-    else if (likedtxt == "Liked"){
-      setlikeText("Like")
+    else if(userHasLiked ==  true){
       unlikeGrid(gridID)
-      setHasLiked(false);
-      for (let likedUser in likers ){
-        if(currentUser.id = likers[likedUser].id){
-            likers.splice(likedUser, 1)
-             break;
-          }
-      }
+      setUserHasLiked(false)
+      // for (let likedUser in likers ){
+      //   if(currentUser.id = likers[likedUser].id){
+      //       likers.splice(likedUser, 1)
+      //        break;
+      //     }
+      //}
     }
   }
 
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = event => {
-    if (likers.length != 0 ){
+    if (listOfPeopleWhoLiked.length != 0 ){
       setAnchorEl(event.currentTarget);
     }
 
@@ -152,12 +145,14 @@ function SingleCard({ name, author, gameLink, numberOfLikes, currentUser, gridID
     <Card className={classes.root}>
         <CardMedia
           className={classes.media}>
-          <Button  className={classes.Likersbutton} size="small" color="primary" aria-controls="simple-menu"  aria-haspopup="true" onClick={handleClick} >
-            {numberOfLikes} Likes {starState?
-          <Star likeText = {likeText == "Liked" ? likeText : ""}/> :
-          <Star likeText = {likeText == "Liked" ? likeText :  ""}/>
-          //need to get this to be true when Liked text eventually loads and because true
-        }
+          <Button className={classes.Likebutton} size="small" color="primary" onClick={() => doLike(userHasLiked, gridID)}>
+
+          <div className = "starImage">
+
+             <img src = { userHasLiked ? "/star.png" : "/starGrey.png"}/>
+
+          </div>
+
           </Button>
           <Menu
             id="simple-menu"
@@ -166,8 +161,8 @@ function SingleCard({ name, author, gameLink, numberOfLikes, currentUser, gridID
             open={Boolean(anchorEl)}
             onClose={handleClose}
             >
-            {likers ? (likers).map(function(liker, key) {
-               return < MenuItem > {liker.displayName} </MenuItem>}) : ""}
+            {listOfPeopleWhoLiked ? (listOfPeopleWhoLiked).map(function(personWhoLiked, key) {
+               return < MenuItem > {personWhoLiked.displayName} </MenuItem>}) : ""}
           </Menu>
           </CardMedia>
         <CardContent>
@@ -184,8 +179,8 @@ function SingleCard({ name, author, gameLink, numberOfLikes, currentUser, gridID
         <Button className={classes.Playbutton} size="small" color="primary"  href={'/play/' + gridID}  >
           Play
         </Button>
-        <Button className={classes.Likebutton} size="small" color="primary" onClick={() => doLike(likeText, gridID)}>
-          {likeText}
+        <Button  className={classes.Likersbutton} size="small" color="primary" aria-controls="simple-menu"  aria-haspopup="true" onClick={handleClick} >
+          {numberOfLikes} {numberOfLikes == 1 ? "Like": "Likes"}
         </Button>
       </CardActions>
     </Card>
