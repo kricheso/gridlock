@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -95,10 +95,20 @@ export default function PersistentDrawerLeft() {
 
   async function loginPress(){
     const user = await Authentication.logIn();
-    if (user === null) { /* error */ }
-
+    if (!user) { console.log("Couldn't login."); }
     setUser(user);
   } // End of loginPress
+
+  async function getCurrentUser() {
+    // Wait half a second for auth dependencies to load.
+    setTimeout(async () => {
+      const _user = await Authentication.currentUser();
+      if (!_user) { console.log("The user is not logged in."); return; }
+      setUser(_user);
+      console.log(_user);
+    }, 500);
+  }
+  useEffect(getCurrentUser, []);
 
   return (
     <div className={classes.root}>
