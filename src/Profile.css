@@ -6,8 +6,30 @@
 	flex-direction: column;
 	flex-wrap: wrap;
 	position: relative;
+	background-color: #7FBEEB;
+	z-index: 1;
+
+}
+.profileCard *{
+	position: relative;
+	z-index: 1;
 }
 
+.profileCard:before{
+	content: "";
+	position: absolute;
+	width:100vw;
+	height: 100%;
+	background-color: #7FBEEB;
+	left:50%;
+	top:0;
+	transform: translateX(-50%);
+	z-index: 0;
+}
+
+.profile{
+	background-color: #7FBEEB;
+}
 .profileImage{
 	position: absolute;
 	height: 195px;
@@ -17,13 +39,32 @@
 .profileText{
 	width:calc(100% - 195px);
 	margin-left:195px;
+	padding: 20px;
+}
+
+.profileText p{
+	display: flex;
+	justify-content: space-between;
+	width:50%;
+	align-items: flex-end;
+}
+
+.profileCard .profileText .newCard{
+	height: 30px;
+	width: 70px;
 }
 
 .star{
 	display: inline-block;
-	background-color: red;
 	height:20px;
 	width:20px;
+	background-image: url("./star.png");
+	background-size:contain;
+	transform: scale(1.5);
+	margin-right: 20px;
+}
+div.MuiCardMedia-root{
+	display: flex;
 }
 
 .Profile-body{
@@ -32,4 +73,5 @@
 	justify-content: center;
 	overflow-y:scroll;
 	width:100vw;
+	min-height: calc(100vh - 64px - 195px ) ;
 }

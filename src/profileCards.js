@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import SingleCard from './card.js';
-import NewCard from './NewCard.js';
 import './gameCards.css';
 import Firestore from './services/firestore.js';
 import Authentication from './services/authentication.js';
@@ -42,6 +41,7 @@ function ProfileCards(props) {
     }
   }
 
+  //{userGridList? <NewCard /> : " "}
 
 
      return (

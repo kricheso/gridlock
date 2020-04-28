@@ -23,8 +23,14 @@ function GameCards() {
   async function load_grids() {
    const grids = await Firestore.get.trendingGridsForUnregisteredUser();
     // If grid is null, set it to an empty grid instead.
+
     const user =  getCurrentUser()
     setCurrentUser(user);
+    if (grids === null || grids.length == 0) { console.log("failed to load grids");
+      setgridlist(grids);
+    return;
+    }
+
     setgridlist(grids);
   }
   async function load_user_grids() {
@@ -33,10 +39,6 @@ function GameCards() {
     setgridlist(user_grid_list);
   }
 
-
-
-  //console.log(grid_list)
-  //`{currentUser ?  currentUser : "default "}`
 
      return (
         <div className="Explore-body">
