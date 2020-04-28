@@ -75,8 +75,8 @@ const useStyles = makeStyles((theme) => ({
     }),
     marginLeft: 0,
   },
-  toolbar: {
-    backgroundColor: 'darkorange',
+  toolbar: { 
+    backgroundColor: '#00688B',
     color: 'white',
   },
   profilePhoto: {
