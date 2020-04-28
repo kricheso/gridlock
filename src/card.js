@@ -98,9 +98,6 @@ function SingleCard({ name, author, gameLink, numberOfLikes, currentUser, gridID
 
 
   function checkIfCurrentUserHasLiked(){
-    // if(userHasLiked == false){
-    //   setStarColor("Like")
-    // }
     if(listOfPeopleWhoLiked != null){
       for (let personWhoLiked in listOfPeopleWhoLiked ){
         if(currentUser.id == listOfPeopleWhoLiked[personWhoLiked].id){
@@ -112,19 +109,13 @@ function SingleCard({ name, author, gameLink, numberOfLikes, currentUser, gridID
   }
 
   const doLike = (userHasLiked, gridID) => {
-    if(userHasLiked ==  false){ //&&user hasn't liked from db
+    if(userHasLiked ==  false){
       likeGrid(currentUser.id, gridID)
       setUserHasLiked(true)
     }
     else if(userHasLiked ==  true){
       unlikeGrid(gridID)
       setUserHasLiked(false)
-      // for (let likedUser in likers ){
-      //   if(currentUser.id = likers[likedUser].id){
-      //       likers.splice(likedUser, 1)
-      //        break;
-      //     }
-      //}
     }
   }
 
