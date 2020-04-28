@@ -80,9 +80,17 @@ const useStyles = makeStyles((theme) => ({
     color: 'white',
   },
   profilePhoto: {
-    width: '25px',
-    height: '25px',
+    width: '27px',
+    height: '27px',
     borderRadius: '50%',
+    border: '2px solid #fff',
+  },
+  profileLink: {
+    color: 'inherit',
+    textDecoration: 'inherit',
+    display: 'flex',
+    alignItems: 'center',
+
   },
 }));
 
@@ -157,11 +165,12 @@ export default function PersistentDrawerLeft() {
                     <Button color="inherit" onClick={() => {loginPress()}}>Login</Button>
                   </div>) :
                   <div>
-                    {user != null &&<>
-                      <img className={classes.profilePhoto} src={user.photoUrl} href="/Profile" alt={user.photoUrl.alt} />
+                    {user != null &&<a className={classes.profileLink} href="/Profile">
+                      <img className={classes.profilePhoto} src={user.photoUrl} alt={user.photoUrl.alt} />
+                      &nbsp; &nbsp;
                       <p>
                         {user.displayName}
-                      </p></>
+                      </p></a>
                     }
                   </div>
                 }
