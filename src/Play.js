@@ -1,15 +1,18 @@
 import React, {useState, useEffect} from 'react';
 import Firestore from './services/firestore.js';
+import Authentication from './services/authentication.js';
 import Board from './Board';
 import './Play.css';
-import ScoreDialog from './ScoreDialog';
+import Leaderboard from './Leaderboard';
 
 function Play(props) {
-  const {userId, gridId, ...other} = props;
+  const {gridId, ...other} = props;
+  const [user, setUser] = useState(null);
   const [timeSec, setTimeSec] = useState(0);
   const [startTime, setStartTime] = useState(Date.now());
   const [intervalId, setIntervalId] = useState(null);
-  const [grid, setGrid] = useState(null)
+  const [grid, setGrid] = useState(null);
+  const [highscores, setHighscores] = useState(null);
   const [finished, setFinished] = useState(false);
   const [score, setScore] = useState(0);
   const helpMessage = "Use the arrow keys to fill the grid!";
@@ -38,27 +41,38 @@ function Play(props) {
 
   useEffect(startTimer, []);
   useEffect(loadGrid, []);
+  useEffect(loadHighscores, []);
 
   async function finishGame() {
     console.log("Finished game.");
     const score_sec = stopTimer();
     setFinished(true);
     setScore(score_sec);
-
-    if (!userId || !gridId) { return; }
-    const score_obj = await Firestore.add.score(userId, gridId, score_sec);
+    if (!user.id || !gridId) {
+      console.log("Cannot upload score without logging in.");
+      return;
+    }
+    const score_obj = await Firestore.add.score(user.id, gridId, score_sec);
     if (!score_obj) {
       // Todo: Surface error to user.
       console.log("Couldn't upload score.");
     } else {
       console.log("Uploaded score.")
-      console.log(score_obj);
     }
   }
 
+  async function getCurrentUser() {
+    // Wait half a second for auth dependencies to load.
+    setTimeout(async () => {
+      const _user = await Authentication.currentUser();
+      if (!_user) { console.log("error or the user is not logged in"); return; }
+      setUser(_user);
+    }, 500);
+  }
+  useEffect(getCurrentUser, []);
+
   async function loadGrid() {
     if (gridId) {
-      console.log(gridId)
       const grid_obj = await Firestore.get.gridForUnregisteredUser(gridId);
       if (grid_obj) {
         setGrid(grid_obj);
@@ -67,6 +81,17 @@ function Play(props) {
     }
     console.log("Failed to load grid, using default_grid.");
     setGrid(default_grid);
+  }
+
+  async function loadHighscores() {
+    if (gridId) {
+      const scores = await Firestore.get.topFiveScoresForGrid(gridId);
+      if (scores) {
+        setHighscores(scores);
+        return;
+      }
+    }
+    console.log("Failed to load highscores.");
   }
 
   function checkFirstMove(e) {
@@ -96,7 +121,7 @@ function Play(props) {
         </div>
       </div>
     </div>
-    { finished ? <ScoreDialog score={score} /> : "" }
+    { finished ? <Leaderboard user={user} solveTimeMilliseconds={score} highscores={highscores} /> : "" }
     { playedFirstMove ? "" : <div className="help"> {helpMessage} </div> }
   </>);
 }

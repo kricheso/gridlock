@@ -1,0 +1,51 @@
+.score {
+  font-size: 40px;
+  font-weight: 400;
+  color: #777; 
+}
+
+.highscores {
+  border-spacing: 0;
+}
+
+.highscore {
+  align-items: center;
+}
+
+.highscore .place {
+  text-align: center;
+}
+
+.highscore.first .place {
+  font-size: 300%;
+}
+
+.highscore .time {
+  font-size: 120%;
+  white-space: nowrap;
+}
+
+.highscore .name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 200px;
+  max-width: 200px;
+  text-align: center;
+}
+
+.MuiDialogTitle-root {
+  margin: auto;
+  text-align: center;
+}
+
+.MuiDialogContent-root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.MuiDialogActions-root {
+  margin: auto;
+}
+

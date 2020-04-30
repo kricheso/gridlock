@@ -3,7 +3,7 @@ table {
   margin: auto;
 }
 
-td {
+.board td {
   width: 30px;
   height: 30px;
 }
