@@ -18,14 +18,15 @@ function Leaderboard(props) {
     : a.solveTime == b.solveTime ? 0 : 1);
 
   // Convert solve time from milliseconds to minutes and seconds:
-  for (let s of highscores) {
-    let mins = Math.floor(s.solveTime/60000);
-    let secs = Math.floor(s.solveTime/1000);
-    s.timestr = mins + " : " + Math.floor(secs/10) + "" + secs%10;
+  for (let score of highscores) {
+    let mins = Math.floor(score.solveTime/60000);
+    let secs = Math.floor(score.solveTime/1000) % 60;
+    // Keep the leading zero for seconds.
+    score.timestr = mins + " : " + Math.floor(secs/10) + "" + secs % 10;
   }
 
-  var pad_array = function(arr,len,fill) {
-    return arr.concat(Array(len).fill(fill)).slice(0,len);
+  var pad_array = function(arr, len, filler) {
+    return arr.concat(Array(len).fill(filler)).slice(0,len);
   }
 
   highscores = pad_array(highscores, 5, {timestr: '--', userDisplayName: '--'});
