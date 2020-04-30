@@ -143,7 +143,7 @@ function Board(props) {
   }
   return (
     <div className="board">
-    <table>
+    <table><tbody>
       {
         board.map((row, i) => {
           return (
@@ -161,7 +161,7 @@ function Board(props) {
           );
         })
       }
-    </table>
+    </tbody></table>
     </div>
   );
 }

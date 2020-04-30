@@ -38,17 +38,14 @@ function Play(props) {
       setTimeSec(Math.floor(Date.now()/1000 - startTime/1000));
     }, 1000));
   }
-
   useEffect(startTimer, []);
-  useEffect(loadGrid, []);
-  useEffect(loadHighscores, []);
 
   async function finishGame() {
     console.log("Finished game.");
     const score_sec = stopTimer();
     setFinished(true);
     setScore(score_sec);
-    if (!user.id || !gridId) {
+    if (!user || !gridId) {
       console.log("Cannot upload score without logging in.");
       return;
     }
@@ -69,7 +66,6 @@ function Play(props) {
       setUser(_user);
     }, 500);
   }
-  useEffect(getCurrentUser, []);
 
   async function loadGrid() {
     if (gridId) {
@@ -93,6 +89,12 @@ function Play(props) {
     }
     console.log("Failed to load highscores.");
   }
+
+  // useEffect shouldn't be called with async functions since they return a
+  // promise and useEffect expects a cleanup callback if anything.
+  useEffect(()=>{getCurrentUser()}, []);
+  useEffect(()=>{loadGrid()}, []);
+  useEffect(()=>{loadHighscores()}, []);
 
   function checkFirstMove(e) {
     if (e.key.startsWith("Arrow")) { setPlayedFirstMove(true)};
