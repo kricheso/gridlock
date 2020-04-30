@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import Firestore from './services/firestore.js';
 import Authentication from './services/authentication.js';
-import firebaseConfig from './firebase'; // Must be present to initialize database.
 import Board from './Board';
 import './Play.css';
 import Leaderboard from './Leaderboard';
