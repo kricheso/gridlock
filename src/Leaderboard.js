@@ -9,8 +9,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import './Leaderboard.css';
 
 function Leaderboard(props) {
+  const score = props.solveTimeMilliseconds;
   const name = props.user ? props.user.displayName : "Guest";
-  const score = props.score;
   let highscores = props.highscores || [];
   highscores.push({solveTime:score, userDisplayName: name, fromThisRound:true});
   highscores.sort((a, b) =>

@@ -7,8 +7,8 @@ import './Play.css';
 import Leaderboard from './Leaderboard';
 
 function Play(props) {
-  const {userId, gridId, ...other} = props;
-  const [user, setUser] = useState(0);
+  const {gridId, ...other} = props;
+  const [user, setUser] = useState(null);
   const [timeSec, setTimeSec] = useState(0);
   const [startTime, setStartTime] = useState(Date.now());
   const [intervalId, setIntervalId] = useState(null);
@@ -51,8 +51,6 @@ function Play(props) {
     setScore(score_sec);
     if (!user.id || !gridId) {
       console.log("Cannot upload score without logging in.");
-      console.log(gridId);
-      console.log(user.id);
       return;
     }
     const score_obj = await Firestore.add.score(user.id, gridId, score_sec);
@@ -61,7 +59,6 @@ function Play(props) {
       console.log("Couldn't upload score.");
     } else {
       console.log("Uploaded score.")
-      console.log(score_obj);
     }
   }
 
@@ -71,14 +68,12 @@ function Play(props) {
       const _user = await Authentication.currentUser();
       if (!_user) { console.log("error or the user is not logged in"); return; }
       setUser(_user);
-      console.log(_user);
     }, 500);
   }
   useEffect(getCurrentUser, []);
 
   async function loadGrid() {
     if (gridId) {
-      console.log(gridId)
       const grid_obj = await Firestore.get.gridForUnregisteredUser(gridId);
       if (grid_obj) {
         setGrid(grid_obj);
@@ -94,7 +89,6 @@ function Play(props) {
       const scores = await Firestore.get.topFiveScoresForGrid(gridId);
       if (scores) {
         setHighscores(scores);
-        console.log(scores);
         return;
       }
     }
@@ -128,7 +122,7 @@ function Play(props) {
         </div>
       </div>
     </div>
-    { finished ? <Leaderboard user={user} score={score} highscores={highscores} /> : "" }
+    { finished ? <Leaderboard user={user} solveTimeMilliseconds={score} highscores={highscores} /> : "" }
     { playedFirstMove ? "" : <div className="help"> {helpMessage} </div> }
   </>);
 }
