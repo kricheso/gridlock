@@ -7,7 +7,6 @@ import Leaderboard from './Leaderboard';
 
 function Play(props) {
   const {gridId, ...other} = props;
-  const [user, setUser] = useState(null);
   const [timeSec, setTimeSec] = useState(0);
   const [startTime, setStartTime] = useState(Date.now());
   const [intervalId, setIntervalId] = useState(null);
@@ -48,11 +47,11 @@ function Play(props) {
     const score_sec = stopTimer();
     setFinished(true);
     setScore(score_sec);
-    if (!user.id || !gridId) {
+    if (!props.user || !gridId) {
       console.log("Cannot upload score without logging in.");
       return;
     }
-    const score_obj = await Firestore.add.score(user.id, gridId, score_sec);
+    const score_obj = await Firestore.add.score(props.user.id, gridId, score_sec);
     if (!score_obj) {
       // Todo: Surface error to user.
       console.log("Couldn't upload score.");
@@ -60,16 +59,6 @@ function Play(props) {
       console.log("Uploaded score.")
     }
   }
-
-  async function getCurrentUser() {
-    // Wait half a second for auth dependencies to load.
-    setTimeout(async () => {
-      const _user = await Authentication.currentUser();
-      if (!_user) { console.log("error or the user is not logged in"); return; }
-      setUser(_user);
-    }, 500);
-  }
-  useEffect(getCurrentUser, []);
 
   async function loadGrid() {
     if (gridId) {
@@ -121,7 +110,7 @@ function Play(props) {
         </div>
       </div>
     </div>
-    { finished ? <Leaderboard user={user} solveTimeMilliseconds={score} highscores={highscores} /> : "" }
+    { finished ? <Leaderboard user={props.user} solveTimeMilliseconds={score} highscores={highscores} /> : "" }
     { playedFirstMove ? "" : <div className="help"> {helpMessage} </div> }
   </>);
 }

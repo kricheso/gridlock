@@ -29,21 +29,16 @@ const useStyles = makeStyles({
 export default function Profile(props) {
   const classes = useStyles();
   const profileId = props ? props.profileId : '';
-  const currentUId = props ? props.currentId : '';
 
   const [username, setUsername] = useState("");
   const [profilepicture, setProfilpic] = useState("");
   const [profileUser, setProfileUser] = useState(null);
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState(props.user);
+  useEffect(()=>{setCurrentUser(props.user)}, props.user);
 
   const click = () => {
     alert("click")
   }
-
-
-  useEffect(() => {
-    getCurrentUser();
-  }, []);
 
   useEffect(() => {
       getProfileUser();
@@ -51,14 +46,6 @@ export default function Profile(props) {
 
 
   function displayNewUserDetails(){
-  }
-
-
-  async function getCurrentUser() {
-    const randomGrid = await Firestore.get.trendingGridsForUnregisteredUser();
-    const user = await Authentication.currentUser();
-    if (user === null) { console.log("error or the user is not logged in"); return; }
-    setCurrentUser(user);
   }
 
   async function getProfileUser() {

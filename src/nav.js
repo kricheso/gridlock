@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
     }),
     marginLeft: 0,
   },
-  toolbar: { 
+  toolbar: {
     backgroundColor: '#00688B',
     color: 'white',
   },
@@ -94,11 +94,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// Function
-export default function PersistentDrawerLeft() {
+export default function PersistentDrawerLeft(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [user, setUser] = useState(props.user);
+
+  useEffect(()=>{setUser(props.user)}, [props.user]);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -108,29 +110,16 @@ export default function PersistentDrawerLeft() {
     setOpen(false);
   };
 
-  const [user, setUser] = useState(null);
-
   async function loginPress(){
     const user = await Authentication.logIn();
     if (!user) { console.log("Couldn't login."); }
     setUser(user);
   } // End of loginPress
 
-  async function getCurrentUser() {
-    // Wait half a second for auth dependencies to load.
-    setTimeout(async () => {
-      const _user = await Authentication.currentUser();
-      if (!_user) { console.log("The user is not logged in."); return; }
-      setUser(_user);
-      console.log(_user);
-    }, 500);
-  }
-  useEffect(getCurrentUser, []);
-
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar color="white"
+      <AppBar
         position="fixed"
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
@@ -140,7 +129,6 @@ export default function PersistentDrawerLeft() {
           <Grid
           justify="space-between" // Add it here :)
           container
-          spacing={24}
           >
             <Grid item>
               <div style={{display:'flex', alignItems:'center'}}>
@@ -166,7 +154,7 @@ export default function PersistentDrawerLeft() {
                   </div>) :
                   <div>
                     {user != null &&<a className={classes.profileLink} href="/Profile">
-                      <img className={classes.profilePhoto} src={user.photoUrl} alt={user.photoUrl.alt} />
+                      <img className={classes.profilePhoto} src={user.photoUrl} alt={"Profile Image"} />
                       &nbsp; &nbsp;
                       <p>
                         {user.displayName}
