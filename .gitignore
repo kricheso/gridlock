@@ -23,4 +23,5 @@ yarn-debug.log*
 yarn-error.log*
 src/firebase.js
 firestore-debug.log
+firebase-debug.log
 *.cache
