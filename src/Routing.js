@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
     BrowserRouter as Router,
     Switch,
@@ -7,104 +7,70 @@ import {
   } from "react-router-dom";
 import PersistentDrawerLeft from './nav.js';
 import Homepage from './Homepage.js'
-import ExplorePage from './ExploreMode.js'
+import Explore from './ExploreMode.js'
 import Play from './Play.js'
 import Profile from './Profile.js'
 import Create from './Create.js'
-import user from './nav.js'
+import Authentication from './services/authentication.js';
 
-
-
-
-function Explore() {
-    return(
-      <div>
-        {ExplorePage()}
-      </div>
-
-    );
+  function PlayById(props) {
+    let {gameid} = useParams();
+    return <Play gridId={gameid} user={props.user} />
   }
 
-  function Game(){
-    const dict = {userId : "kricheso@google.com", gridId : "board1_by_kricheso@google.com"}
-
-    return(
-      <div>
-        {Play(dict)}
-      </div>
-    );
-  }
-
-  function Home(){
-    return(
-      <div>
-        {Homepage()}
-      </div>
-    );
-  }
-
-  // Change function name to whatever route
-  function About(){
-      return(
-          <div>
-          </div>
-      );
-  }
-
-  function PlayById() {
-    let { gameid } = useParams();
-    return <Play gridId={gameid} />
-  }
-
-  function ProfileById() {
+  function ProfileById(props) {
     let {profileid} = useParams();
-    return <Profile profileId={profileid} />
+    return <Profile profileId={profileid} user={props.user} />
   }
 
-  export default function Routing(){
-
-
+export default function Routing(){
+    const [user, setUser] = useState(null);
+    async function getCurrentUser() {
+      // Wait half a second for auth dependencies to load.
+      setTimeout(async () => {
+        const _user = await Authentication.currentUser();
+        if (!_user) { console.log("Error or the user is not logged in."); return; }
+        setUser(_user);
+        console.log(_user);
+      }, 500);
+    }
+    // useEffect shouldn't be called with async functions since they return a
+    // promise and useEffect expects a cleanup callback if anything.
+    useEffect(()=>{getCurrentUser()}, []);
 
     return (
         <Router>
-            {user == null ?
-                (<div>
-                    {PersistentDrawerLeft()}
-                </div>) : (
-                    <div>
-                        {PersistentDrawerLeft(user)}
-                    </div>)
+            {
+              user == null ?
+              (<PersistentDrawerLeft />) :
+              (<PersistentDrawerLeft user={user} />)
             }
-
-          <div>
-
 
             {/* A <Switch> looks through its children <Route>s and
                 renders the first one that matches the current URL. */}
             <Switch>
               <Route path="/explore">
-                <Explore />
+                <Explore user={user} />
               </Route>
               <Route path="/profile/:profileid">
-                <ProfileById />
+                <ProfileById user={user} />
               </Route>
               <Route path="/profile">
-                <Profile />
+                <Profile user={user} />
               </Route>
               <Route path="/play/:gameid">
-                <PlayById />
+                <PlayById user={user} />
               </Route>
               <Route path="/play">
-                <Game />
+                <Play user={user} />
               </Route>
               <Route path="/create">
-                <Create />
+                <Create user={user} />
               </Route>
               <Route path="/">
-                <Home />
+                <Homepage user={user} />
               </Route>
             </Switch>
-          </div>
         </Router>
       ); // End of app return
   }

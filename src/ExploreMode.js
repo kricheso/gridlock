@@ -4,14 +4,12 @@ import './ExploreMode.css';
 import GameCards from './gameCards.js';
 
 
-function ExplorePage() {
-
-
+function ExplorePage(props) {
   return (
     <div>
       <div className="Explore">
         <header className="Explore-header">
-          <GameCards/>
+          <GameCards user={props.user}/>
        </header>
       </div>
     </div>
