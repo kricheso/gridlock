@@ -78,5 +78,14 @@ describe('Nav', () => {
     await findByText(userDisplayName);
   });
 
-
+  test('Login button is displayed once they logout', async () => {
+    const userDisplayName = "username";
+    const user = {displayName: userDisplayName};
+    const { getByText, findByText } = render(<Nav user={user} />);
+    await findByText(userDisplayName);
+    act(() => {
+      fireEvent.click(getByText('Logout'));
+    });
+    await findByText('Login');
+  });
 });
