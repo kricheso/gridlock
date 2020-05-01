@@ -85,6 +85,10 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '50%',
     border: '2px solid #fff',
   },
+  rightNav: {
+    display: 'flex',
+    alignItems: 'center',
+  },
   profileLink: {
     color: 'inherit',
     textDecoration: 'inherit',
@@ -99,7 +103,6 @@ export default function PersistentDrawerLeft(props) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [user, setUser] = useState(props.user);
-
   useEffect(()=>{setUser(props.user)}, [props.user]);
 
   const handleDrawerOpen = () => {
@@ -114,7 +117,15 @@ export default function PersistentDrawerLeft(props) {
     const user = await Authentication.logIn();
     if (!user) { console.log("Couldn't login."); }
     setUser(user);
-  } // End of loginPress
+    window.location = window.location;  // Refresh page.
+  }
+
+  async function logoutPress(){
+    const success = await Authentication.logout();
+    if (!success) { console.log("Couldn't logout."); }
+    setUser(null);
+    window.location = "/";  // Redirect to homepage.
+  }
 
   return (
     <div className={classes.root}>
@@ -153,12 +164,17 @@ export default function PersistentDrawerLeft(props) {
                     <Button color="inherit" onClick={() => {loginPress()}}>Login</Button>
                   </div>) :
                   <div>
-                    {user != null &&<a className={classes.profileLink} href="/Profile">
+                    {user != null &&
+
+                  <div className={classes.rightNav}>
+                      <a className={classes.profileLink} href="/Profile">
                       <img className={classes.profilePhoto} src={user.photoUrl} alt={"Profile Image"} />
                       &nbsp; &nbsp;
                       <p>
                         {user.displayName}
                       </p></a>
+                    <Button color="inherit" onClick={() => {logoutPress()}}>Logout</Button>
+                  </div>
                     }
                   </div>
                 }
