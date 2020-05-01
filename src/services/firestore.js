@@ -113,6 +113,7 @@ class Error {
 
     static firebaseFaliure(failValue = null) {
         console.log(Consts.firebaseFailureMessage);
+        console.trace();
         return failValue;
     }
 
@@ -138,6 +139,7 @@ class Error {
 
     static invalidUser(failValue = null) {
         console.log(Consts.invalidUserMessage);
+        console.trace();
         return failValue;
     }
 
@@ -367,7 +369,7 @@ class Firestore {
             if (user.displayName === undefined) { return Error.invalidType(); }
             if (user.photoURL === undefined) { return Error.invalidType(); }
             if (user.email === undefined) { return Error.invalidType(); }
-
+            console.log("adding user with email " + user.email);
             try {
 
                 // Run Transaction
@@ -400,6 +402,8 @@ class Firestore {
                         updateDict[Consts.photoUrl] = user.photoURL;
                         transaction.update(REF.USERS.doc(userId), updateDict);
                     }
+                    console.log("added user "+userId);
+                    console.trace();
 
                     // Return Result
                     return dict;
