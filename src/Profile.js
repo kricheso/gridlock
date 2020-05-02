@@ -118,7 +118,7 @@ export default function Profile(props) {
     }
         </div>
       </div>
-      <ProfileCards profileId={profileId? profileId : profileUser ? profileUser.id : null}/>
+      <ProfileCards user={currentUser} profileId={profileId? profileId : (profileUser ? profileUser.id : null)}/>
     </div>
   );
 }
