@@ -1,11 +1,20 @@
 import React, {useState, useEffect} from 'react';
+import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
 import Firestore from './services/firestore.js';
-import Authentication from './services/authentication.js';
 import Board from './Board';
 import './Play.css';
 import Leaderboard from './Leaderboard';
 
+const useStyles = makeStyles({
+  restart: {
+    left: '50%',
+    marginLeft: '-38px',
+  }
+});
+
 function Play(props) {
+  const classes = useStyles();
   const {gridId, ...other} = props;
   const [timeSec, setTimeSec] = useState(0);
   const [startTime, setStartTime] = useState(Date.now());
@@ -88,8 +97,11 @@ function Play(props) {
   function checkFirstMove(e) {
     if (e.key.startsWith("Arrow")) { setPlayedFirstMove(true)};
   }
-
   document.addEventListener("keydown", checkFirstMove);
+
+  function restart() {
+    window.location = window.location;  // Refresh page.
+  }
 
   return (<>
     { grid ?
@@ -113,7 +125,9 @@ function Play(props) {
       </div>
     </div>
     { finished ? <Leaderboard user={props.user} solveTimeMilliseconds={score} highscores={highscores} /> : "" }
-    { playedFirstMove ? "" : <div className="help"> {helpMessage} </div> }
+    { playedFirstMove
+        ? <Button onClick={restart} className={classes.restart}>Restart</Button>
+        : <div className="help"> {helpMessage} </div> }
   </>);
 }
 
