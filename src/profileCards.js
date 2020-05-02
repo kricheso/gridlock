@@ -2,47 +2,27 @@ import React, { useState, useEffect } from 'react';
 import SingleCard from './card.js';
 import './gameCards.css';
 import Firestore from './services/firestore.js';
-import Authentication from './services/authentication.js';
-
 
 function ProfileCards(props) {
   const {profileId, ...other} = props;
   const [grid_list, setgridlist] = useState(null);
   const [userGridList, setUserGridList] = useState(null);
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState(props.user);
 
-
-  useEffect(() => {
-    getCurrentUser();
-  }, []);
-
-  useEffect(() => {
-    if(currentUser != null){
-      loadCurrentUsersGrids();
-    }
-  }, [currentUser]);
-
-  async function getCurrentUser() {
-    const randomGrid = await Firestore.get.trendingGridsForUnregisteredUser();
-    const user = await Authentication.currentUser();
-    if (user === null) { console.log("error or the user is not logged in"); return; }
-    setCurrentUser(user);
-  }
+  useEffect(() => { setCurrentUser(props.user) }, props.user);
+  useEffect(() => { loadCurrentUsersGrids(); }, [currentUser]);
 
   async function loadCurrentUsersGrids() {
-    if(profileId == null && currentUser != null){
-      const grids = await Firestore.get.gridsCreatedByUser(currentUser.id, currentUser.id);
-      if (grids === null) { console.log("get user grids failed"); return; }
-      setUserGridList(grids)
-    }
-    else if(profileId != null){
-      const grids = await Firestore.get.gridsCreatedByUser(profileId, profileId);
-      setUserGridList(grids)
-    }
+    console.log(profileId);
+    let currProfileId = profileId || (currentUser ? currentUser.id : null);
+    let userFetchingProfile = currentUser ? currentUser.id : profileId;
+    if (!currProfileId) { console.log("Profile id not found."); }
+    const grids = await Firestore.get.gridsCreatedByUser(currProfileId, userFetchingProfile);
+    if (!grids) { console.log("Couldn't fetch grids created by user."); }
+    else { setUserGridList(grids); }
   }
 
-
-     return (
+  return (
         <div className="Profile-body">
        {userGridList ? (userGridList).map(function(grid, key) {
           return < SingleCard
@@ -51,14 +31,11 @@ function ProfileCards(props) {
           gameLink = {grid.creatorDisplayName}
           numberOfLikes = {grid.numberOfLikes}
           gridID = {grid.id}
-          currentUser = {currentUser}
+          currentUser = {currentUser || {id:null}}
           />
         }) : " "}
       </div>
-
     );
-
-
 }
 
 export default ProfileCards;
