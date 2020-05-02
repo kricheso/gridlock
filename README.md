@@ -4,6 +4,7 @@ Gridlock is a maze game built in React where players must visit every cell of th
 
 ## Contents
 * [How to run Gridlock on a localhost](#Run)
+* [How to verify a release](#Verify)
 * [GitHub Help](#GitHubHelp)
 * [Objects](#Objects)
 * [Authentication.js](#Authentication)
@@ -40,6 +41,18 @@ Start the localhost server:
 ```
 $ npm start
 ```
+## <a name="Verify" />How to Verify a Release
+1. Start the emulator with `firebase emulators:start --only firestore`.
+2. Run the tests with `npm test` (ignore the firebase tests since they're out of date).
+3. Login.
+4. Click on the play page, submit a score and verify that your score is in the leaderboard.
+5. Click on the explore page, verify that the cards load.
+6. Click on your profile page, verify that your profile information and games load.
+7. Click on one of the cards, and verify that you can visit a profile of a liker.
+8. Like a game on the explore or
+9. Create a game.
+10. Repeat all of the above steps after logging out.
+11. Verify that the lock on the homepage is locked when logged out, and unlocked when logged in.
 
 ## <a name="GitHubHelp" />GitHub Help
 
