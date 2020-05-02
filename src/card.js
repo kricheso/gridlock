@@ -28,10 +28,6 @@ const useStyles = makeStyles({
     backgroundColor: '#007EA7',
     alignItems: 'center',
     margin: '0px',
-    color: 'white',
-    '&:hover': {
-      color: 'black',
-    },
   },
   Likersbutton: {
     width: 170,
@@ -39,10 +35,6 @@ const useStyles = makeStyles({
     backgroundColor: '#007EA7',
     alignItems: 'center',
     margin: '0px',
-    color: 'white',
-    '&:hover': {
-      color: 'black',
-    },
   },
   Likebutton: {
     width: 170,
@@ -53,7 +45,7 @@ const useStyles = makeStyles({
   likerLink: {
     color: 'inherit',
     textDecoration: 'inherit',
-  },
+  }
 });
 
 
