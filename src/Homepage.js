@@ -11,7 +11,6 @@ export default function Homepage(props) {
 
   useEffect(()=>{ setUser(props.user); }, props.user);
 
-  // END OF HELPTER METHODS FOR HOMEPAGE
   async function loginPress(){
     const user = await Authentication.logIn();
     if (!user) { console.log("Couldn't login."); }
