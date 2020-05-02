@@ -25,14 +25,20 @@ const useStyles = makeStyles((theme) => ({
     '& input': {
       textAlign: 'center',
     },
-  }
+  },
+  restart: {
+    left: '50%',
+    marginLeft: '-38px',
+  },
 }));
 
 function Create(props) {
+  const classes = useStyles();
   const [grid, setGrid] = useState([]);
   const [solution, setSolution] = useState(null);
+  const [playedFirstMove, setPlayedFirstMove] = useState(false);
+  const helpMessage = "Use the arrow keys to create the maze!";
   const defaultUserId = "kricheso@google.com";
-  const classes = useStyles();
 
   async function saveGrid(e) {
     e.preventDefault();
@@ -49,6 +55,15 @@ function Create(props) {
       console.log(createdGrid);
       return false;  // Form onSubmit must return false.
     }
+  }
+
+  function checkFirstMove(e) {
+    if (e.key.startsWith("Arrow")) { setPlayedFirstMove(true)};
+  }
+  document.addEventListener("keydown", checkFirstMove);
+
+  function restart() {
+    window.location = window.location;  // Refresh page.
   }
 
   return (
@@ -71,6 +86,9 @@ function Create(props) {
     </Button>
     </form>
     <Board setGrid={setGrid} setSolution={setSolution} />
+    { playedFirstMove
+        ? <Button onClick={restart} className={classes.restart}>Restart</Button>
+        : <div className="help"> {helpMessage} </div> }
     </div>
   );
 }
