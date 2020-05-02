@@ -42,6 +42,10 @@ const useStyles = makeStyles({
     alignItems: 'right',
     margin: '0px',
   },
+  likerLink: {
+    color: 'inherit',
+    textDecoration: 'inherit',
+  }
 });
 
 
@@ -134,10 +138,9 @@ function SingleCard({ name, author, numberOfLikes, currentUser, gridID, creatorI
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = event => {
-    if (listOfPeopleWhoLiked.length != 0 ){
+    if (listOfPeopleWhoLiked && listOfPeopleWhoLiked.length != 0 ){
       setAnchorEl(event.currentTarget);
     }
-
   };
 
   const handleClose = () => {
@@ -161,7 +164,11 @@ function SingleCard({ name, author, numberOfLikes, currentUser, gridID, creatorI
             onClose={handleClose}
             >
             {listOfPeopleWhoLiked ? (listOfPeopleWhoLiked).map(function(personWhoLiked, key) {
-               return < MenuItem > {personWhoLiked.displayName} </MenuItem>}) : ""}
+               return (
+                 <MenuItem>
+                   <a className={classes.likerLink} href={"/profile/"+personWhoLiked.id}>{personWhoLiked.displayName}</a>
+                 </MenuItem>)})
+              : ""}
           </Menu>
           </CardMedia>
         <CardContent>
