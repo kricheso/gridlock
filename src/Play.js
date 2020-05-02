@@ -73,6 +73,14 @@ function Play(props) {
         setGrid(grid_obj);
         return;
       }
+    } else {
+      // Load random grid.
+      const grids = await Firestore.get.trendingGridsForUnregisteredUser();
+      if (grids !== null && grids.length > 0) {
+        const randomGrid = grids[Math.floor(Math.random()*grids.length)];
+        setGrid(randomGrid);
+        return;
+      }
     }
     console.log("Failed to load grid, using default_grid.");
     setGrid(default_grid);
