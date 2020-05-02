@@ -32,30 +32,22 @@ const useStyles = makeStyles({
 export default function Profile(props) {
   const classes = useStyles();
   const profileId = props ? props.profileId : '';
-  const currentUId = props ? props.currentId : '';
 
   const [username, setUsername] = useState("");
   const [profilepicture, setProfilpic] = useState("");
   const [profileUser, setProfileUser] = useState(null);
-  const [currentUser, setCurrentUser] = useState(null);
   const [following, setFollowing] = useState(false);
+  const [currentUser, setCurrentUser] = useState(props.user);
+  useEffect(()=>{setCurrentUser(props.user)}, props.user);
 
   const click = () => {
     alert("click")
   }
 
-  useEffect(() => { getCurrentUser(); }, []);
   useEffect(() => { getProfileUser(); }, [currentUser]);
+  useEffect(() => { checkFollowing(currentUser); }, [currentUser]);
 
   function displayNewUserDetails(){
-  }
-
-  async function getCurrentUser() {
-    const randomGrid = await Firestore.get.trendingGridsForUnregisteredUser();
-    const user = await Authentication.currentUser();
-    if (user === null) { console.log("error or the user is not logged in"); return; }
-    setCurrentUser(user);
-    checkFollowing(user);
   }
 
   async function getProfileUser() {
@@ -71,7 +63,7 @@ export default function Profile(props) {
   }
 
   async function checkFollowing(user) {
-    if (!profileId) { return; }
+    if (!profileId || !user) { return; }
     const followers = await Firestore.get.followers(profileId);
     if (!followers) {
       console.log("Couldn't load followers for");
@@ -83,6 +75,7 @@ export default function Profile(props) {
   }
 
   async function follow() {
+    if (!currentUser || !profileUser) { return; }
     const success = await Firestore.add.follow(currentUser.id, profileUser.id);
     if (!success) {
       console.log("Couldn't follow");
@@ -94,6 +87,7 @@ export default function Profile(props) {
   }
 
   async function unfollow() {
+    if (!currentUser || !profileUser) { return; }
     const success = await Firestore.remove.follow(currentUser.id, profileUser.id);
     if (!success) {
       console.log("Couldn't unfollow");

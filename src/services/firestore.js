@@ -59,11 +59,19 @@ class Consts {
     static uuidMark = "x";
 }
 
-class REF {
-    static BASE = firebase.firestore();
-    static FOLLOWS = firebase.firestore().collection(Consts.follows);
-    static GRIDS = firebase.firestore().collection(Consts.grids);
-    static USERS = firebase.firestore().collection(Consts.users);
+let REF = {
+  BASE: firebase.firestore(),
+  FOLLOWS: firebase.firestore().collection(Consts.follows),
+  GRIDS: firebase.firestore().collection(Consts.grids),
+  USERS: firebase.firestore().collection(Consts.users),
+};
+
+// This is used for dependency injection.
+export function setDB(db) {
+  REF.BASE = db;
+  REF.FOLLOWS = db.collection(Consts.follows);
+  REF.GRIDS = db.collection(Consts.grids);
+  REF.USERS = db.collection(Consts.users);
 }
 
 class Error {
@@ -146,7 +154,7 @@ class Firestore {
             if (typeof(followingId) !== Type.string) { return Error.invalidType(); }
             if (userId === followingId) { return Error.cannotFollowYourself(); }
 
-            try { 
+            try {
 
                 // Run Transaction
                 return await REF.BASE.runTransaction(async function (transaction) {
@@ -200,7 +208,7 @@ class Firestore {
             const sol = Firestore.HASH.convertToSolutionString(solution);
             if (sol === null) { return Error.invalidSolution(); }
 
-            try { 
+            try {
 
                 // Run Transaction
                 return await REF.BASE.runTransaction(async function (transaction) {
@@ -234,7 +242,7 @@ class Firestore {
 
                 });
 
-            } 
+            }
 
             // Catch Errors
             catch { return Error.firebaseFaliure(); }
@@ -252,8 +260,8 @@ class Firestore {
             // Synchronous Checks
             if (typeof(userId) !== Type.string) { return Error.invalidType(); }
             if (typeof(gridId) !== Type.string) { return Error.invalidType(); }
-            
-            try { 
+
+            try {
 
                 // Run Transaction
                 return await REF.BASE.runTransaction(async function (transaction) {
@@ -303,7 +311,7 @@ class Firestore {
             if (typeof(gridId) !== Type.string) { return Error.invalidType(); }
             if (typeof(milliseconds) !== Type.number) { return Error.invalidType(); }
 
-            try { 
+            try {
 
                 // Run Transaction
                 return await REF.BASE.runTransaction(async function (transaction) {
@@ -323,7 +331,7 @@ class Firestore {
                     }
                     gridDict[Consts.numberOfAttempts] = gridDoc.data().numberOfAttempts + 1;
                     transaction.update(REF.GRIDS.doc(gridId), gridDict);
-                    
+
                     // Write 2
                     const dict = {};
                     const id = Firestore.HASH.createUUID();
@@ -360,7 +368,7 @@ class Firestore {
             if (user.photoURL === undefined) { return Error.invalidType(); }
             if (user.email === undefined) { return Error.invalidType(); }
 
-            try { 
+            try {
 
                 // Run Transaction
                 return await REF.BASE.runTransaction(async function (transaction) {
@@ -399,7 +407,7 @@ class Firestore {
                 });
 
             }
-            
+
             // Catch Errors
             catch { return Error.firebaseFaliure(); }
 
@@ -411,9 +419,9 @@ class Firestore {
 
         static async doesGridExist(id) {
             if (typeof(id) !== Type.string) { return Error.invalidType(); }
-            try { 
+            try {
                 const doc = await REF.GRIDS.doc(id).get();
-                return doc.exists; 
+                return doc.exists;
             }
             catch { return Error.firebaseFaliure(); }
         }
@@ -462,7 +470,7 @@ class Firestore {
 
         static async gridForUnregisteredUser(gridId) {
             if (typeof(gridId) !== Type.string) { return Error.invalidType(); }
-            try { 
+            try {
                 const doc = await REF.GRIDS.doc(gridId).get();
                 if (!doc.exists) { return null; }
                 const dict = doc.data();
@@ -490,8 +498,8 @@ class Firestore {
                     dict[Consts.creatorDisplayName] = user.displayName;
                     dict[Consts.data] = Firestore.HASH.convertToGridDataMatrix(dict.data);
                     dict[Consts.solution] = Firestore.HASH.convertToSolutionMatrix(dict.solution);
-                    if (requestorId === null) { 
-                        dict[Consts.liked] = false; 
+                    if (requestorId === null) {
+                        dict[Consts.liked] = false;
                     } else {
                         const likeDoc = await Firestore.get.like(requestorId, dict.id);
                         if (likeDoc !== null) { dict[Consts.liked] = true; }
@@ -524,7 +532,7 @@ class Firestore {
         static async like(userId, gridId) {
             if (typeof(userId) !== Type.string) { return Error.invalidType(); }
             if (typeof(gridId) !== Type.string) { return Error.invalidType(); }
-            try { 
+            try {
                 const doc = await REF.GRIDS.doc(gridId).collection(Consts.likes).doc(userId).get();
                 return doc.exists ? doc.data() : null;
             }
@@ -539,11 +547,11 @@ class Firestore {
                 let scores = [];
                 for (const doc of querySnapshot.docs) {
                     const score = doc.data()
-                    if (score.isComplete) { 
+                    if (score.isComplete) {
                         const user = await Firestore.get.user(score.userId);
                         if (user === null) { return Error.firebaseFaliure(); }
                         score[Consts.userDisplayName] = user.displayName;
-                        scores.push(score); 
+                        scores.push(score);
                     }
                 }
                 return scores;
@@ -562,7 +570,7 @@ class Firestore {
                     const dict = doc.data();
                     const user = results[index];
                     if (user === null) { return Error.firebaseFaliure(); }
-                    dict[Consts.creatorDisplayName] = user.displayName; 
+                    dict[Consts.creatorDisplayName] = user.displayName;
                     dict[Consts.data] = Firestore.HASH.convertToGridDataMatrix(dict.data);
                     dict[Consts.solution] = Firestore.HASH.convertToSolutionMatrix(dict.solution);
                     dict[Consts.liked] = false;
@@ -589,9 +597,9 @@ class Firestore {
 
         static async user(id) {
             if (typeof(id) !== Type.string) { return Error.invalidType(); }
-            try { 
+            try {
                 const doc = await REF.USERS.doc(id).get();
-                return doc.exists ? doc.data() : null; 
+                return doc.exists ? doc.data() : null;
             }
             catch { return Error.firebaseFaliure(null); }
         }
@@ -604,9 +612,9 @@ class Firestore {
                 const likes = await REF.GRIDS.doc(gridId).collection(Consts.likes).get();
                 for (const like of likes.docs) {
                     const user = await Firestore.get.user(like.data().userId);
-                    if (user === null) { 
+                    if (user === null) {
                         Error.firebaseFaliure();
-                        continue; 
+                        continue;
                     }
                     users.push(user)
                 }
@@ -620,7 +628,7 @@ class Firestore {
     // !== DO NOT MODIFY ANY CODE IN FIRESTORE.HASH ==!
     // These are hash functions used to communicate with
     // Firestore. If this code changes, all existing
-    // data in the database will be corrupted. 
+    // data in the database will be corrupted.
     static HASH = class {
 
         static convertToGridDataString(matrix) {
@@ -667,9 +675,9 @@ class Firestore {
 
         static convertToSolutionString(solution) {
             let lines = [];
-            for (const array of solution) { 
+            for (const array of solution) {
                 if (array.length !== 2) { return null; }
-                lines.push(array.join("")); 
+                lines.push(array.join(""));
             }
             return lines.join("-");
         }
@@ -688,8 +696,8 @@ class Firestore {
             const width = matrix[0].length;
             let startCount = 0;
             let finishCount = 0;
-            for (const array of matrix) { 
-                if (array.length !== width) { return false; } 
+            for (const array of matrix) {
+                if (array.length !== width) { return false; }
                 for(const element of Array.from(array)) {
                     if (element.length !== 1) { return false; }
                     if (!validTiles.has(element)) { return false; }
@@ -713,7 +721,7 @@ class Firestore {
             if (typeof(followingId) !== Type.string) { return Error.invalidType(false); }
             if (userId === followingId) { return Error.cannotUnfollowYourself(false); }
 
-            try { 
+            try {
 
                 // Run Transaction
                 return await REF.BASE.runTransaction(async function (transaction) {
@@ -725,7 +733,7 @@ class Firestore {
                     if (!followingDoc.exists) { return Error.invalidUser(); }
                     const id = Firestore.HASH.convertToFollowId(userId, followingId);
                     if (!(await transaction.get(REF.FOLLOWS.doc(id))).exists) { return Error.alreadyNotFollowed(); }
-                    
+
                     // Write 1
                     const userDict = {};
                     userDict[Consts.numberOfFollowing] = userDoc.data().numberOfFollowing - 1;
@@ -738,7 +746,7 @@ class Firestore {
 
                     // Write 3
                     transaction.delete(REF.FOLLOWS.doc(id))
-                    
+
                     return true;
 
                 });
@@ -755,7 +763,7 @@ class Firestore {
             // Synchronous Checks
             if (typeof(id) !== Type.string) { return Error.invalidType(false); }
 
-            try { 
+            try {
 
                 // Please keep these under 200. If higher than 200, risk
                 // firebase failing due to max writes limit.
@@ -779,7 +787,7 @@ class Firestore {
                     const creatorDict = {};
                     creatorDict[Consts.numberOfTotalLikes] = creatorDoc.data().numberOfTotalLikes - gridDoc.data().numberOfLikes;
                     transaction.update(REF.USERS.doc(gridDoc.data().creatorId), creatorDict);
-                    
+
                     // Batch Delete
                     for (const doc of querySnapshotLikes.docs) {
                         transaction.delete(REF.GRIDS.doc(id).collection(Consts.likes).doc(doc.id));
@@ -810,13 +818,13 @@ class Firestore {
                     for (const scoreDoc of scoreBatch.docs) { batch.delete(REF.GRIDS.doc(id).collection(Consts.scores).doc(scoreDoc.id)); }
                     if (isFinished) { batch.delete(REF.GRIDS.doc(id)); }
                     await batch.commit();
-                    if (isFinished) { 
+                    if (isFinished) {
                         console.log("Completed delete with multiple batches. Theoretically, stray files still may exist. But very very unlikely.");
-                        return true; 
+                        return true;
                     }
                 }
 
-            } 
+            }
 
             // Catch Errors
             catch { return Error.firebaseFaliure(false); }
@@ -828,8 +836,8 @@ class Firestore {
             // Synchronous Checks
             if (typeof(userId) !== Type.string) { return Error.invalidType(false); }
             if (typeof(gridId) !== Type.string) { return Error.invalidType(false); }
-            
-            try { 
+
+            try {
 
                 // Run Transaction
                 return await REF.BASE.runTransaction(async function (transaction) {
@@ -842,7 +850,7 @@ class Firestore {
                     if (!likeDoc.exists) { return Error.alreadyNotLiked(false) }
                     const creatorDoc = await transaction.get(REF.USERS.doc(gridDoc.data().creatorId));
                     if (!creatorDoc.exists) { return Error.firebaseFaliure(false); }
-                    
+
                     // Write 1
                     const gridDict = {};
                     gridDict[Consts.numberOfLikes] = gridDoc.data().numberOfLikes - 1;

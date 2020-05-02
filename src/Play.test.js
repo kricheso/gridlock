@@ -5,6 +5,8 @@ import firebase from 'firebase';
 import * as firebaseTesting from '@firebase/testing'
 import firebaseApp from './firebase.js';
 
+import {setDB} from './services/firestore.js';
+
 import Play from './Play';
 
 const projectId = "gridlock-6f01b";
@@ -23,7 +25,12 @@ describe('Play component', () => {
     const userDisplayName = "username";
     const gridTitle = "grid_title";
 
-    const db = firebaseApp.firestore();
+    const app = firebaseTesting.initializeTestApp({
+      projectId: projectId,
+      auth: {uid:"username", email:userId},
+    })
+    const db = app.firestore();
+    setDB(db);
 
     await db.collection("users").doc(userId).set({
       displayName: userDisplayName,
