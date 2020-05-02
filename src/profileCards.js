@@ -1,9 +1,20 @@
 import React, { useState, useEffect } from 'react';
+import { makeStyles } from "@material-ui/core/styles";
 import SingleCard from './card.js';
 import './gameCards.css';
 import Firestore from './services/firestore.js';
 
+const useStyles = makeStyles({
+  noGamesMessage: {
+    position: 'relative',
+    top: '50px',
+    color: '#555',
+    fontSize: '130%',
+  }
+});
+
 function ProfileCards(props) {
+  const classes = useStyles();
   const {profileId, ...other} = props;
   const [grid_list, setgridlist] = useState(null);
   const [userGridList, setUserGridList] = useState(null);
@@ -33,7 +44,7 @@ function ProfileCards(props) {
           gridID = {grid.id}
           currentUser = {currentUser || {id:null}}
           />
-        }) : " "}
+        }) : <p className={classes.noGamesMessage}>This user has not made any games yet!</p>}
       </div>
     );
 }

@@ -14,8 +14,8 @@ import ProfileCards from './profileCards.js';
 import GameCards from './gameCards.js';
 import Authentication from './services/authentication.js';
 import SingleCard from "./card.js";
-import logo from "./logo.svg";
 import NewCard from './NewCard.js';
+import defaultProfileImage from './defaultProfileImage.svg';
 
 const useStyles = makeStyles({
   root: {
@@ -38,24 +38,15 @@ export default function Profile(props) {
   const [profileUser, setProfileUser] = useState(null);
   const [following, setFollowing] = useState(false);
   const [currentUser, setCurrentUser] = useState(props.user);
+  const defaultUserName = "Guest";
   useEffect(()=>{setCurrentUser(props.user)}, props.user);
-
-  const click = () => {
-    alert("click")
-  }
-
   useEffect(() => { getProfileUser(); }, [currentUser]);
   useEffect(() => { checkFollowing(currentUser); }, [currentUser]);
-
-  function displayNewUserDetails(){
-  }
 
   async function getProfileUser() {
     if(profileId == null && currentUser != null){
       setProfileUser(currentUser);
-    }
-
-    else if(profileId != null){
+    } else if(profileId != null){
       const user = await Firestore.get.user(profileId);
       if (user === null) { console.log("error or the user is not logged in"); return; }
       setProfileUser(user);
@@ -101,14 +92,14 @@ export default function Profile(props) {
   return (
     <div className="profile">
       <div className="profileCard">
-        <img className="profileImage" src={profileUser? profileUser.photoUrl: ""} alt="Profile Pic"/>
+        <img className="profileImage" src={ profileUser && profileUser.photoUrl ? profileUser.photoUrl : defaultProfileImage } alt="Profile Pic"/>
         <div className="profileText">
-          <h2> {profileUser? profileUser.displayName: " "} </h2>
+          <h2> {profileUser? profileUser.displayName: defaultUserName} </h2>
           <p>
           <span>
-          <span className="star"></span>   <b>{profileUser ?  profileUser.numberOfTotalLikes: " "} </b> Likes </span>
-          <span> <b> {profileUser? profileUser.numberOfFollowers + (following ? 1 : 0): " "}</b> Followers </span>
-          <span>  <b> {profileUser? profileUser.numberOfFollowing: " "} </b>  Following</span>
+          <span className="star"></span>   <b>{profileUser ?  profileUser.numberOfTotalLikes: 0 } </b> Likes </span>
+          <span> <b> {profileUser? profileUser.numberOfFollowers + (following ? 1 : 0): 0 }</b> Followers </span>
+          <span>  <b> {profileUser? profileUser.numberOfFollowing: 0 } </b>  Following</span>
           </p>
     {
       currentUser != profileUser ?
