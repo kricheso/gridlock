@@ -82,7 +82,6 @@ function Play(props) {
 
   // useEffect shouldn't be called with async functions since they return a
   // promise and useEffect expects a cleanup callback if anything.
-  useEffect(()=>{getCurrentUser()}, []);
   useEffect(()=>{loadGrid()}, []);
   useEffect(()=>{loadHighscores()}, []);
 
