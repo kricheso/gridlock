@@ -24,6 +24,9 @@ const useStyles = makeStyles({
   media: {
     height: 140,
   },
+  follow: {
+    color: 'white',
+  }
 });
 
 export default function Profile(props) {
@@ -33,6 +36,7 @@ export default function Profile(props) {
   const [username, setUsername] = useState("");
   const [profilepicture, setProfilpic] = useState("");
   const [profileUser, setProfileUser] = useState(null);
+  const [following, setFollowing] = useState(false);
   const [currentUser, setCurrentUser] = useState(props.user);
   useEffect(()=>{setCurrentUser(props.user)}, props.user);
 
@@ -40,10 +44,8 @@ export default function Profile(props) {
     alert("click")
   }
 
-  useEffect(() => {
-      getProfileUser();
-  }, [currentUser]);
-
+  useEffect(() => { getProfileUser(); }, [currentUser]);
+  useEffect(() => { checkFollowing(currentUser); }, [currentUser]);
 
   function displayNewUserDetails(){
   }
@@ -60,6 +62,42 @@ export default function Profile(props) {
     }
   }
 
+  async function checkFollowing(user) {
+    if (!profileId || !user) { return; }
+    const followers = await Firestore.get.followers(profileId);
+    if (!followers) {
+      console.log("Couldn't load followers for");
+      console.log(profileUser);
+    }
+    if (followers.map(follower=>follower.id).includes(user.id)) {
+      setFollowing(true);
+    }
+  }
+
+  async function follow() {
+    if (!currentUser || !profileUser) { return; }
+    const success = await Firestore.add.follow(currentUser.id, profileUser.id);
+    if (!success) {
+      console.log("Couldn't follow");
+      console.log(profileUser);
+      setFollowing(true);  // Probably couldn't follow because they're already following.
+    } else {
+      setFollowing(true);
+    }
+  }
+
+  async function unfollow() {
+    if (!currentUser || !profileUser) { return; }
+    const success = await Firestore.remove.follow(currentUser.id, profileUser.id);
+    if (!success) {
+      console.log("Couldn't unfollow");
+      console.log(profileUser);
+      setFollowing(false);  // Probably couldn't unfollow because they're already not following.
+    } else {
+      setFollowing(false);
+    }
+  }
+
   return (
     <div className="profile">
       <div className="profileCard">
@@ -68,11 +106,16 @@ export default function Profile(props) {
           <h2> {profileUser? profileUser.displayName: " "} </h2>
           <p>
           <span>
-          <span className="star"></span>   <b>{profileUser ?  profileUser.numberOfTotalLikes: " "}</b> </span>
-          <span> <b> {profileUser? profileUser.numberOfFollowers: " "}</b> Followers </span>
+          <span className="star"></span>   <b>{profileUser ?  profileUser.numberOfTotalLikes: " "} </b> Likes </span>
+          <span> <b> {profileUser? profileUser.numberOfFollowers + (following ? 1 : 0): " "}</b> Followers </span>
           <span>  <b> {profileUser? profileUser.numberOfFollowing: " "} </b>  Following</span>
           </p>
-           <NewCard />
+    {
+      currentUser != profileUser ?
+      (following ? <Button className={classes.follow} onClick={unfollow}>Unfollow</Button>
+                 : <Button className={classes.follow} onClick={follow}>Follow</Button>)
+      : ""
+    }
         </div>
       </div>
       <ProfileCards profileId={profileId? profileId : profileUser ? profileUser.id : null}/>
